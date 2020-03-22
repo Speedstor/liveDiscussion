@@ -1,0 +1,7 @@
+net\speedstor\main\ServerThread.class
+net\speedstor\main\Log.class
+net\speedstor\main\Server.class
+net\speedstor\main\Cmd.class
+net\speedstor\outdated\LoopedCheck.class
+net\speedstor\main\DiscussionHandler.class
+net\speedstor\main\Main.class
