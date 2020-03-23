@@ -59,6 +59,22 @@ public class WebSocket extends Thread{
 							
 						}else {
 							log.log("Socket recieved: " + message);
+							
+							String command = "";
+							if(message.contains(" ")) {
+								int indexOfFirstSpace =  message.indexOf(" ");
+								command = message.substring(0,indexOfFirstSpace);
+								switch(command) {
+								case "post":
+									postTopicMessage(message.substring(indexOfFirstSpace+1));
+									break;
+								case "reply":
+									int secondSpace = message.indexOf(" ", indexOfFirstSpace);
+									String targetTopic = message.substring(indexOfFirstSpace, secondSpace);
+									replyToTopic(targetTopic, message.substring(secondSpace));
+									break;
+								}
+							}
 						}
 						
 						
@@ -68,6 +84,14 @@ public class WebSocket extends Thread{
 				}
 			}
 		}
+	}
+	
+	private void postTopicMessage(String content) {
+		
+	}
+	
+	private void replyToTopic(String targetTopic, String content) {
+		
 	}
 	
 	private String readMessage(DataInputStream in, int firstByte) {

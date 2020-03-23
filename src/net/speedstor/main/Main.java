@@ -34,6 +34,7 @@ public class Main {
 	Clock clock;
 	Server server;
 	WebSocketHandler websocketHandler;
+	TokenHandler tokenHandler;
 
 	Thread serverThread;
 	Thread cmdThread;
@@ -49,10 +50,13 @@ public class Main {
 		
 		//websockethandler
 		websocketHandler = new WebSocketHandler(log);
+		
+		//tokenHandler
+		tokenHandler = new TokenHandler(log);
 
 		//server
 		int port = 40;
-		server = new Server(log, clock, port, timeStart, websocketHandler);
+		server = new Server(log, clock, port, timeStart, websocketHandler, tokenHandler);
 		serverThread = new Thread(server);
 		serverThread.start();
 

@@ -15,6 +15,7 @@ public class Server implements Runnable{
 	public boolean running = false;
 
 	ServerSocket serverSocket;
+	TokenHandler tokenHandler;
 	int port;
 	
 	WebSocketHandler websocketHandler;
@@ -22,16 +23,16 @@ public class Server implements Runnable{
 	Clock clock;
 	double startTime;
 	
-	public JSONObject tokens = new JSONObject();
 	public HashMap<String, DiscussionHandler> runningDiscussionBoards = new HashMap<String, DiscussionHandler>();
 	
 	public HashMap<String, Integer> clientConnections = new HashMap<String, Integer>();
 	
-	public Server(Log log, Clock clock, int port, double startTime, WebSocketHandler websocketHandler) {
+	public Server(Log log, Clock clock, int port, double startTime, WebSocketHandler websocketHandler, TokenHandler tokenHandler) {
 		this.log = log;
 		this.port = port;
 		this.clock = clock;
 		this.startTime = startTime;
+		this.tokenHandler = tokenHandler;
 		this.websocketHandler = websocketHandler;
 		running = true;
 	}
@@ -58,7 +59,7 @@ public class Server implements Runnable{
 	        	Socket client = serverSocket.accept();
 	        	
 	        	//move to a new thread for dealing with request
-	        	Thread serverThread = new ServerThread(client, log, this, websocketHandler, clock);
+	        	Thread serverThread = new ServerThread(client, log, this, websocketHandler, clock, tokenHandler);
 	        	serverThread.start();
 	        	
 	        }catch ( java.io.InterruptedIOException e ) {

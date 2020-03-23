@@ -46,13 +46,15 @@ public class ServerThread extends Thread{
 	Log log;
 	Server server;
 	WebSocketHandler websocketHandler;
+	TokenHandler tokenHandler;
 	Clock clock;
 	
-	public ServerThread(Socket client, Log log, Server server, WebSocketHandler websocketHandler, Clock clock) {
+	public ServerThread(Socket client, Log log, Server server, WebSocketHandler websocketHandler, Clock clock, TokenHandler tokenHandler) {
 		this.client = client;
 		this.log = log;
 		this.server = server;
 		this.websocketHandler = websocketHandler;
+		this.tokenHandler = tokenHandler;
 		this.clock = clock;
 	}
 	
@@ -148,6 +150,7 @@ public class ServerThread extends Thread{
 				headerOut.println("Date: " + new Date());
 				headerOut.println("Content-type: " + contentType);
 				headerOut.println("Content-length: " + returnByte.length);
+				headerOut.println("Access-Control-Allow-Origin: *");
 				headerOut.println(); // blank line between headers and content, very important !
 				headerOut.flush(); // flush character output stream buffer
 		        
@@ -283,37 +286,33 @@ public class ServerThread extends Thread{
 		int tokenLength = 15; //do not change !!!
 		String token;
 
-		if(server.tokens.toJSONString().contains(canvasToken)) {
-			
-			int tokenLoc = server.tokens.toJSONString().indexOf(canvasToken);
-			token = server.tokens.toJSONString().substring(tokenLoc - 3 - tokenLength, tokenLoc - 3);
+		if(tokenHandler.containValue(canvasToken)) {
+			String[] tokenPossibilities = tokenHandler.getKeyFromValue(canvasToken);
+			if(tokenPossibilities.length <= 0) {
+				//do the same code as it does not have the value
+				token = getAlphaNumericString(tokenLength);
+				while(tokenHandler.contains(token)) {
+					token = getAlphaNumericString(tokenLength);				
+				}
+				tokenHandler.addToken(token, canvasToken);
+			}else if(tokenPossibilities.length == 1) {
+				token = tokenPossibilities[0];
+			}else {
+				token = tokenPossibilities[0];
+				log.warn("repeated canvas Id in id system");
+			}
 		}else {
 			
 			token = getAlphaNumericString(tokenLength);
 			
 			//make sure no repeat
-			while(server.tokens.containsKey(token)) {
+			while(tokenHandler.contains(token)) {
 				token = getAlphaNumericString(tokenLength);				
 			}
 			
 			//write in file: serverToken - CanvasToken
-			
-			try {
-				File f = new File("../canvasBot");
-				if(!f.exists()) System.out.println("File Storage does not exsist --Creating storage folder: "+(new File("../canvasBot")).mkdirs());
-				
-				File file = new File("../canvasBot", "tokens.txt");
-				FileWriter fr = new FileWriter(file, true);
-				fr.write("\n"+token+":"+canvasToken);
-				fr.close();
-				
-				log.log("New User: " + token);
-				
-			}catch(IOException e){
-				return "server writing error";
-			}
-			
-			server.tokens.put(token, canvasToken);
+
+			tokenHandler.addToken(token, canvasToken);
 		}
 		
 
@@ -333,7 +332,7 @@ public class ServerThread extends Thread{
 			if(server.runningDiscussionBoards.containsKey(discussionUrl)) {
 				//server.runningDiscussionBoards.get(discussionUrl).addParticipant(token);
 			}else {
-				DiscussionHandler discussionHandler = new DiscussionHandler(log, discussionUrl);
+				DiscussionHandler discussionHandler = new DiscussionHandler(log, discussionUrl, clock, tokenHandler, token, websocketHandler);
 				//discussionHandler.addParticipant(token);
 				Thread discussionHandlerThread = new Thread(discussionHandler);
 				discussionHandlerThread.start();
@@ -341,7 +340,7 @@ public class ServerThread extends Thread{
 				
 				server.runningDiscussionBoards.put(discussionUrl, discussionHandler);
 				
-				log.log("New DBoard: " + discussionHandler.toString() + "; Total Boards: " + server.runningDiscussionBoards.size() + "; url: " + discussionUrl.substring(40, discussionUrl.indexOf("?")));
+				log.log("New DBoard: " + discussionHandler.toString() + "; Total Boards: " + server.runningDiscussionBoards.size() + "; url: " + discussionUrl.substring(40));
 			}
 			
 			
@@ -354,6 +353,8 @@ public class ServerThread extends Thread{
 			}
 			
 			websocketHandler.addWebsocket(socketId, newWebsocket);
+			
+			token += "-" + socketId;
 			
 		}else {
 			token = "0-urlNotDiscussion"; //needs to be a discussion topic
