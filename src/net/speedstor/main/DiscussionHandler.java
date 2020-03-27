@@ -32,7 +32,7 @@ public class DiscussionHandler implements Runnable{
 
     JSONParser parser = new JSONParser();
 	
-	long canvasUpdateFreq = 10000;
+	long canvasUpdateFreq = 13000;
 	
 	public DiscussionHandler(Log log, String url, Clock clock, TokenHandler tokenHandler, String backupToken, WebSocketHandler websocketHandler) {
 		this.log = log;
@@ -43,6 +43,7 @@ public class DiscussionHandler implements Runnable{
 		this.websocketHandler = websocketHandler;
 		
 		
+		/*
 		try {
 			discussionJson = (JSONObject) parser.parse(lackedJson);
 			log.log(discussionJson.toJSONString());
@@ -50,9 +51,10 @@ public class DiscussionHandler implements Runnable{
 			previousAmount.put("numOfTopics", 34);
 		} catch (ParseException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
+	public boolean inUpdating = false;
 	
 	@Override
 	public void run() {
@@ -65,34 +67,66 @@ public class DiscussionHandler implements Runnable{
 			//check every 5 seconds
 			if(clock.millis() - bufferTime > canvasUpdateFreq) {
 				bufferTime = clock.millis();
+				inUpdating = true;
 				updateJson();
+				
+				
+				//----   done through direct functions update
+				//listen for posting new discussion
+				//updateJson
+				
+				//listen for new half messages from each websocket
+				//-----
+				
+				//dispatch changes to clients
+					//new discussions
+					//new replies
+					//new unfinished messages
+				//only dispatch new changes --> my approach, maybe better to send whole new 			
+				if(!newContent.isEmpty()) {
+					log.log("newContent: "+newContent.toJSONString());
+					for(int i=0; i < participantList.size(); i++) {
+						websocketHandler.get(participantList.get(i)).sendUnmask(newContent.toJSONString());
+					}
+					//update
+					newContent = new JSONObject();
+				
+				}
+				
+
+				inUpdating = false;
 			}		
 			
-			//listen for posting new discussion
-			//updateJson
-			
-			//listen for new half messages from each websocket
-			
-			
-			//dispatch changes to clients
-				//new discussions
-				//new replies
-				//new unfinished messages
-			//only dispatch new changes --> my approach, maybe better to send whole new 			
-			if(!newContent.isEmpty()) {
-				log.log("newContent"+newContent.toJSONString());
-				for(int i=0; i < participantList.size(); i++) {
-					websocketHandler.get(participantList.get(i)).sendUnmask(newContent.toJSONString());
-				}
-			}
-			
-			//update
-			newContent = new JSONObject();
 		}
+	}
+	
+	public void sendSync(String username, String content) {
+		/*sendToAll("{\"sync\": ["
+				+ "{\"username\": \""+username+"\", "
+				 + "\"content\": \""+content+"\"}]}");
+				 */
+		
+		sendToAll("sync "+username+" "+content+"");
+	}
+
+	public void sendToAll(String payload) {
+		inUpdating = true;
+		for(int i=0; i < participantList.size(); i++) {
+			websocketHandler.get(participantList.get(i)).sendUnmask(payload);
+		}
+		inUpdating = false;
 	}
 	
 	public void callUpdateJson() {
 		updateJson();
+	}
+	
+	public void newTopics(String postResponse) {
+		//sendToAll("{\"topics\": ["+postResponse+"]}");
+	}
+	
+	public void newReply(String targetTopic, String postResponse) {
+		//sendToAll("{\"newReplies\": {\""+targetTopic+"\":["+postResponse+"]}");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -119,6 +153,10 @@ public class DiscussionHandler implements Runnable{
 	            		discussionJson.put("participants", participantsSub);
 	            	}
 	            }
+	            
+	            if(!discussionJson.containsKey("view")) {
+	            	
+	            }
 			
 				JSONArray viewSub;
 				if((viewSub = (JSONArray) convJson.get("view")) != null) {
@@ -129,67 +167,68 @@ public class DiscussionHandler implements Runnable{
 							viewJson.put(((JSONObject) x).get("id"), x);
 						});
 						discussionJson.put("view", viewJson);
-					}
-					
-					if(!previousAmount.containsKey("numOfTopics")) {
-						previousAmount.put("numOfTopics", viewSub.size());
 					}else {
-						if(previousAmount.get("numOfTopics") != viewSub.size()) {
-							//new stuff
-							JSONArray newContentJson = new JSONArray();
-							viewSub.forEach((x) -> {
-								if(!((JSONObject) discussionJson.get("view")).containsKey(""+ ((JSONObject) x).get("id"))) {
-									newContentJson.add(x);
-									((JSONObject) discussionJson.get("view")).put(""+((JSONObject) x).get("id"), x);
-								};
-							});
-							newContent.put("topics", newContentJson);
-							previousAmount.put("numOfTopics", viewSub.size());
-						}
-					}
 					
-					JSONObject topicWrap = new JSONObject();
-					//go through each topic and check if replies had increased
-					viewSub.forEach((topicFromNew) -> {
-						JSONArray newReplyForTopic = new JSONArray();
-						
-						JSONObject topicFromOld = (JSONObject) ((JSONObject) discussionJson.get("view")).get(""+((JSONObject) topicFromNew).get("id"));
-						JSONArray repliesFromOld = (JSONArray) topicFromOld.get("replies");
-						JSONArray repliesFromNew = (JSONArray) ((JSONObject) topicFromNew).get("replies");
-						
-						if(repliesFromNew != null) {
-							if(repliesFromOld == null) {
-								topicWrap.put(((JSONObject) topicFromNew).get("id"), repliesFromNew);
-								((JSONObject) ((JSONObject) discussionJson.get("view")).get(""+((JSONObject) topicFromNew).get("id"))).put("replies", repliesFromNew);
-							}else {
-								if(repliesFromNew.size() != repliesFromOld.size()) {
-									repliesFromNew.forEach((replyObject)->{
-										int id = Math.toIntExact((Long) ((JSONObject) replyObject).get("id"));
-										
-										HashMap<String, Boolean> store = new HashMap<>();
-										store.put("ifNew", true);
-										
-										repliesFromOld.forEach((oldReplyObject) -> {
-											int oldId = Math.toIntExact(((Long) ((JSONObject) oldReplyObject).get("id")));
-											if( oldId == id ) {
-												store.put("ifNew", false);
-											}
-										});
-										if(store.get("ifNew")) {
-											newReplyForTopic.add(replyObject);
-											//sorry i am too deep into this hole to climb out now
-											((JSONArray) ((JSONObject) ((JSONObject) discussionJson.get("view")).get(""+((JSONObject) topicFromNew).get("id"))).get("replies")).add(replyObject);
-										}
-									});
-		
-									topicWrap.put(topicFromOld.get("id"), newReplyForTopic);
-								}	
+						if(!previousAmount.containsKey("numOfTopics")) {
+							previousAmount.put("numOfTopics", viewSub.size());
+						}else {
+							if(previousAmount.get("numOfTopics") != viewSub.size()) {
+								//new stuff
+								JSONArray newContentJson = new JSONArray();
+								viewSub.forEach((x) -> {
+									if(!((JSONObject) discussionJson.get("view")).containsKey(""+ ((JSONObject) x).get("id"))) {
+										newContentJson.add(x);
+										((JSONObject) discussionJson.get("view")).put(""+((JSONObject) x).get("id"), x);
+									};
+								});
+								newContent.put("topics", newContentJson);
+								previousAmount.put("numOfTopics", viewSub.size());
 							}
 						}
-					});
 					
-					if(!topicWrap.isEmpty()) {
-						newContent.put("newReplies", topicWrap);
+						JSONObject topicWrap = new JSONObject();
+						//go through each topic and check if replies had increased
+						viewSub.forEach((topicFromNew) -> {
+							JSONArray newReplyForTopic = new JSONArray();
+							
+							JSONObject topicFromOld = (JSONObject) ((JSONObject) discussionJson.get("view")).get(""+((JSONObject) topicFromNew).get("id"));
+							JSONArray repliesFromOld = (JSONArray) topicFromOld.get("replies");
+							JSONArray repliesFromNew = (JSONArray) ((JSONObject) topicFromNew).get("replies");
+							
+							if(repliesFromNew != null) {
+								if(repliesFromOld == null) {
+									topicWrap.put(((JSONObject) topicFromNew).get("id"), repliesFromNew);
+									((JSONObject) ((JSONObject) discussionJson.get("view")).get(""+((JSONObject) topicFromNew).get("id"))).put("replies", repliesFromNew);
+								}else {
+									if(repliesFromNew.size() != repliesFromOld.size()) {
+										repliesFromNew.forEach((replyObject)->{
+											int id = Math.toIntExact((Long) ((JSONObject) replyObject).get("id"));
+											
+											HashMap<String, Boolean> store = new HashMap<>();
+											store.put("ifNew", true);
+											
+											repliesFromOld.forEach((oldReplyObject) -> {
+												int oldId = Math.toIntExact(((Long) ((JSONObject) oldReplyObject).get("id")));
+												if( oldId == id ) {
+													store.put("ifNew", false);
+												}
+											});
+											if(store.get("ifNew")) {
+												newReplyForTopic.add(replyObject);
+												//sorry i am too deep into this hole to climb out now
+												((JSONArray) ((JSONObject) ((JSONObject) discussionJson.get("view")).get(""+((JSONObject) topicFromNew).get("id"))).get("replies")).add(replyObject);
+											}
+										});
+			
+										topicWrap.put(topicFromOld.get("id"), newReplyForTopic);
+									}	
+								}
+							}
+						});
+					
+						if(!topicWrap.isEmpty()) {
+							newContent.put("newReplies", topicWrap);
+						}
 					}
 				}
 			}catch (ParseException e) {
@@ -241,7 +280,7 @@ public class DiscussionHandler implements Runnable{
 	public int addParticipant(String token) {
 		participantList.add(token);
 		log.log("DiscussionBoardSize: "+participantList.size() + "; url="+url);
-		websocketHandler.get(token).sendUnmask(discussionJson.toJSONString());;
+		//websocketHandler.get(token).sendUnmask(discussionJson.toJSONString());;
 		return 1;
 	}
 	

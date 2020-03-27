@@ -344,7 +344,7 @@ public class ServerThread extends Thread{
 			}
 			
 			
-			WebSocket newWebsocket = new WebSocket(log, clock, token, discussionUrl);
+			WebSocket newWebsocket = new WebSocket(log, clock, token, discussionUrl, server, tokenHandler);
 
 			String socketId = getAlphaNumericString(tokenLength);
 			//make sure no repeat

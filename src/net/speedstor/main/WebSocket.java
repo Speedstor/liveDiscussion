@@ -5,9 +5,13 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
 import java.net.Socket;
+import java.net.URL;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Arrays;
@@ -18,16 +22,20 @@ public class WebSocket extends Thread{
 	BufferedReader inFromClient;
 	BufferedOutputStream outToClient;
 	Log log;
+	TokenHandler tokenHandler;
 	Clock clock;
 	private Boolean running;
-	String userId;
+	String socketId;
 	private String discussionUrl;
+	Server server;
 
-	public WebSocket(Log log, Clock clock, String userId, String discussionUrl) {
+	public WebSocket(Log log, Clock clock, String socketId, String discussionUrl, Server server, TokenHandler tokenHandler) {
 		this.log = log;
 		this.clock = clock;
-		this.userId = userId;
+		this.socketId = socketId;
 		this.discussionUrl = discussionUrl;
+		this.server = server;
+		this.tokenHandler = tokenHandler;
 	}
 	
 	public void initSetup(Socket client, BufferedReader inFromClient, BufferedOutputStream outToClient) {
@@ -64,14 +72,23 @@ public class WebSocket extends Thread{
 							if(message.contains(" ")) {
 								int indexOfFirstSpace =  message.indexOf(" ");
 								command = message.substring(0,indexOfFirstSpace);
+								int secondSpace;
 								switch(command) {
 								case "post":
 									postTopicMessage(message.substring(indexOfFirstSpace+1));
+									server.runningDiscussionBoards.get(discussionUrl).callUpdateJson();
 									break;
 								case "reply":
-									int secondSpace = message.indexOf(" ", indexOfFirstSpace);
-									String targetTopic = message.substring(indexOfFirstSpace, secondSpace);
+									secondSpace = message.indexOf(" ", indexOfFirstSpace);
+									String targetTopic = message.substring(indexOfFirstSpace+1, secondSpace);
 									replyToTopic(targetTopic, message.substring(secondSpace));
+									server.runningDiscussionBoards.get(discussionUrl).callUpdateJson();
+									break;
+								case "sync":
+									//"sync username the message"
+									secondSpace = message.indexOf(" ", indexOfFirstSpace+1);
+									String username = message.substring(indexOfFirstSpace+1, secondSpace);
+									sendSyncUpdate(username, message.substring(secondSpace+1));
 									break;
 								}
 							}
@@ -86,12 +103,26 @@ public class WebSocket extends Thread{
 		}
 	}
 	
+	private void sendSyncUpdate(String username, String content) {
+		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
+		//while(discussionBoard.inUpdating);
+		//String response = sendPost(discussionUrl.replace("view", "")+"entries"+"?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
+	
+		discussionBoard.sendSync(username, content);
+	}
+
 	private void postTopicMessage(String content) {
-		
+		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
+		String response = sendPost(discussionUrl.replace("view", "")+"entries"+"?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
+		//discussionBoard
+		while(discussionBoard.inUpdating);
 	}
 	
 	private void replyToTopic(String targetTopic, String content) {
-		
+		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
+		String response = sendPost(discussionUrl.replace("view", "")+"entries/"+targetTopic+"/replies?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
+	
+		while(discussionBoard.inUpdating);
 	}
 	
 	private String readMessage(DataInputStream in, int firstByte) {
@@ -364,6 +395,46 @@ public class WebSocket extends Thread{
 			returnString += " 0x" + hexStringArray[i];
 		}
 		return returnString.substring(1);
+	}
+	
+
+	public String sendPost(String url, String bodyJson) {
+		try {
+			URL urlObj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
+			con.setRequestMethod("POST");
+			con.setRequestProperty("Content-Type", "application/json; utf-8");
+			con.setRequestProperty("Accept", "application/json");
+			con.setRequestProperty("User-Agent", "Mozilla/5.0");
+			
+			con.setDoOutput(true);
+			
+			try(OutputStream os = con.getOutputStream()) {
+			    byte[] input = bodyJson.getBytes("utf-8");
+			    os.write(input, 0, input.length);           
+			}
+			
+			int responseCode = con.getResponseCode();
+			//if (responseCode == HttpURLConnection.HTTP_OK) {
+				BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+	
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+	
+				// print result
+				return response.toString();
+			//} else {
+			//	log.error("GET request not worked");
+			//	return "error: get response code error";
+			//}
+		}catch(IOException e){
+			//e.printStackTrace();
+			return "error: catch error";
+		}
 	}
 
 }
