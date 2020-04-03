@@ -1,4 +1,4 @@
-package net.speedstor.main;
+package net.speedstor.websocket;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -16,7 +16,12 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Arrays;
 
-public class WebSocket extends Thread{
+import net.speedstor.main.DiscussionHandler;
+import net.speedstor.main.Log;
+import net.speedstor.main.Server;
+import net.speedstor.main.TokenHandler;
+
+public class WebSocket{
 	
 	Socket client;
 	BufferedReader inFromClient;
@@ -28,6 +33,9 @@ public class WebSocket extends Thread{
 	String socketId;
 	private String discussionUrl;
 	Server server;
+	
+	InStream inStream;
+	OutStream outStream;
 
 	public WebSocket(Log log, Clock clock, String socketId, String discussionUrl, Server server, TokenHandler tokenHandler) {
 		this.log = log;
@@ -42,90 +50,37 @@ public class WebSocket extends Thread{
 		this.client = client;
 		this.inFromClient = inFromClient;
 		this.outToClient = outToClient;
-		running = true;
+		
+		inStream = new InStream(this, client, inFromClient, outToClient, clock, log);
+		Thread inStreamThread = new Thread(inStream);
+		inStreamThread.start();
+		
+		outStream = new OutStream(this, client, inFromClient, outToClient, clock, log);
+		Thread outStreamThread = new Thread(outStream);
+		outStreamThread.start();
 	}
 	
-	public void run() {
-		//listening for client sent packages
-		//running = true;
-		long bufferTime = 0;
-		while(running) {
-			if(clock.millis() - bufferTime > 1000) {
-				bufferTime = clock.millis();
-				try {
-					DataInputStream in = new DataInputStream(new BufferedInputStream(client.getInputStream()));
-					int firstByte;
-					if((firstByte = in.read()) != -1) {
-						//on message
-						String message = readMessage(in, firstByte);
-						
-						if(message == "error-speedstor") {
-							
-						}else if(message == "empty-speedstor") {
-							
-						}else if(message == "pong-speedstor") {
-							
-						}else {
-							log.log("Socket recieved: " + message);
-							
-							String command = "";
-							if(message.contains(" ")) {
-								int indexOfFirstSpace =  message.indexOf(" ");
-								command = message.substring(0,indexOfFirstSpace);
-								int secondSpace;
-								switch(command) {
-								case "post":
-									postTopicMessage(message.substring(indexOfFirstSpace+1));
-									server.runningDiscussionBoards.get(discussionUrl).callUpdateJson();
-									break;
-								case "reply":
-									secondSpace = message.indexOf(" ", indexOfFirstSpace);
-									String targetTopic = message.substring(indexOfFirstSpace+1, secondSpace);
-									replyToTopic(targetTopic, message.substring(secondSpace));
-									server.runningDiscussionBoards.get(discussionUrl).callUpdateJson();
-									break;
-								case "sync":
-									//"sync username the message"
-									secondSpace = message.indexOf(" ", indexOfFirstSpace+1);
-									String username = message.substring(indexOfFirstSpace+1, secondSpace);
-									sendSyncUpdate(username, message.substring(secondSpace+1));
-									break;
-								}
-							}
-						}
-						
-						
-					}
-				} catch(IOException e) {
-					
-				}
-			}
-		}
-	}
-	
-	private void sendSyncUpdate(String username, String content) {
+	void sendSyncUpdate(String username, String content) {
 		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
 		//while(discussionBoard.inUpdating);
-		//String response = sendPost(discussionUrl.replace("view", "")+"entries"+"?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
-	
 		discussionBoard.sendSync(username, content);
 	}
 
-	private void postTopicMessage(String content) {
+	void postTopicMessage(String content) {
 		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
 		String response = sendPost(discussionUrl.replace("view", "")+"entries"+"?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
 		//discussionBoard
 		while(discussionBoard.inUpdating);
 	}
 	
-	private void replyToTopic(String targetTopic, String content) {
+	void replyToTopic(String targetTopic, String content) {
 		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
 		String response = sendPost(discussionUrl.replace("view", "")+"entries/"+targetTopic+"/replies?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
 	
 		while(discussionBoard.inUpdating);
 	}
 	
-	private String readMessage(DataInputStream in, int firstByte) {
+	String readMessage(DataInputStream in, int firstByte) {
 		try {
 			String frameHeaderBin = Integer.toBinaryString(firstByte);
 			frameHeaderBin += Integer.toBinaryString(in.read()); //2 bytes - frame header
@@ -199,6 +154,11 @@ public class WebSocket extends Thread{
 		return "error-speedstor";
 	}
 	
+	public void sendUnmaskThread(String message) {
+		//want to offload to thread 
+		outStream.send(message);
+	}
+	
 	public void sendUnmask(String message) {
 		String binaryInit = "10000001 0";
 		
@@ -233,8 +193,6 @@ public class WebSocket extends Thread{
 		}
 		
 		byte[] returnByte = addAll(binaryToByte(binaryInit + payloadLenBin), payload);
-	
-		log.special(bytesToHex(returnByte));
 		
 		try {
 			outToClient.write(returnByte, 0, returnByte.length);
@@ -375,7 +333,6 @@ public class WebSocket extends Thread{
 		
 		return returnByte;
 	}
-	
 	
 	
 	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();

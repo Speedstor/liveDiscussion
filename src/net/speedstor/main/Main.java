@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import net.speedstor.outdated.LoopedCheck;
+import net.speedstor.websocket.WebSocketHandler;
 
 public class Main {
 	static Main main;

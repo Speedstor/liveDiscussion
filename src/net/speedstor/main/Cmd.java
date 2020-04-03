@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import net.speedstor.websocket.WebSocketHandler;
+
 public class Cmd implements Runnable{
 	BufferedReader in;
 	Main main;

@@ -40,6 +40,8 @@ import org.json.simple.JSONObject;
 import net.speedstor.main.DiscussionHandler;
 import net.speedstor.main.Log;
 import net.speedstor.main.Server;
+import net.speedstor.websocket.WebSocket;
+import net.speedstor.websocket.WebSocketHandler;
 
 public class ServerThread extends Thread{
 	Socket client;
@@ -238,9 +240,8 @@ public class ServerThread extends Thread{
 			if(!parameters.containsKey("socketId")) return -1; //need socket id
 			
 			//continued in websocket
-			Thread websocket = websocketHandler.get((String) parameters.get("socketId"));
+			WebSocket websocket = websocketHandler.get((String) parameters.get("socketId"));
 			((WebSocket) websocket).initSetup(client, inFromClient, outToClient);
-			websocket.start();
 			
 			server.runningDiscussionBoards.get(((WebSocket) websocket).getUrl()).addParticipant((String) parameters.get("socketId"));
 
@@ -288,6 +289,7 @@ public class ServerThread extends Thread{
 
 		if(tokenHandler.containValue(canvasToken)) {
 			String[] tokenPossibilities = tokenHandler.getKeyFromValue(canvasToken);
+			log.log("tokenPossiblities: "+Arrays.toString(tokenPossibilities));
 			if(tokenPossibilities.length <= 0) {
 				//do the same code as it does not have the value
 				token = getAlphaNumericString(tokenLength);

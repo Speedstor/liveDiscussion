@@ -1,6 +1,8 @@
-package net.speedstor.main;
+package net.speedstor.websocket;
 
 import java.util.HashMap;
+
+import net.speedstor.main.Log;
 
 public class WebSocketHandler {
 	Log log;

@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 
+import net.speedstor.websocket.WebSocketHandler;
+
 public class Server implements Runnable{
 	Log log;
 	public boolean running = false;
@@ -43,7 +45,6 @@ public class Server implements Runnable{
 			log.log("Open on port: ("+port+")");
 		} catch (IOException e1) {
 			log.error("port: "+port+" taken, try another one");
-			
 			return;
 			//debug
 			//e1.printStackTrace();
@@ -54,8 +55,6 @@ public class Server implements Runnable{
 		while(running) {
 			//Receive requests
 	        try {
-	        	//System.out.println("setted up port");
-
 	        	Socket client = serverSocket.accept();
 	        	
 	        	//move to a new thread for dealing with request

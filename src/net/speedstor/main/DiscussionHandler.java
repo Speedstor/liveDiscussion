@@ -14,6 +14,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import net.speedstor.websocket.WebSocketHandler;
+
 public class DiscussionHandler implements Runnable{
 	Log log;
 	String url;
@@ -112,7 +114,7 @@ public class DiscussionHandler implements Runnable{
 	public void sendToAll(String payload) {
 		inUpdating = true;
 		for(int i=0; i < participantList.size(); i++) {
-			websocketHandler.get(participantList.get(i)).sendUnmask(payload);
+			websocketHandler.get(participantList.get(i)).sendUnmaskThread(payload);
 		}
 		inUpdating = false;
 	}
@@ -121,12 +123,14 @@ public class DiscussionHandler implements Runnable{
 		updateJson();
 	}
 	
-	public void newTopics(String postResponse) {
-		//sendToAll("{\"topics\": ["+postResponse+"]}");
+	public void sendNewTopic(String postId) {
+		//send what is a new post
+		sendToAll("post "+postId);
 	}
 	
-	public void newReply(String targetTopic, String postResponse) {
-		//sendToAll("{\"newReplies\": {\""+targetTopic+"\":["+postResponse+"]}");
+	public void sendNewReply(String postId) {
+		//send the id of the new reply
+		sendToAll("reply "+postId);
 	}
 	
 	@SuppressWarnings("unchecked")

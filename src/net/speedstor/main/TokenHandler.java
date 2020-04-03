@@ -22,13 +22,14 @@ public class TokenHandler {
 	
 	public boolean containValue(String canvasToken) {
 		log.special(tokens.toString());
+		log.special(""+tokens.containsValue(canvasToken));
 		return tokens.containsValue(canvasToken);
 	}
 	
 	public String[] getKeyFromValue(String canvasToken) {
 		ArrayList<String> store = new ArrayList<String>();
 		tokens.forEach((k,v) -> {
-			if(v == canvasToken) {
+			if(v.equals(canvasToken)) {
 				store.add(k);
 			}
 		});
@@ -90,5 +91,18 @@ public class TokenHandler {
 		}
 		tokens = new HashMap<>();
 		return tokens;
+	}
+	
+	//from https://stackoverflow.com/questions/7888004/how-do-i-print-escape-characters-in-java -- for debuggin
+	private static String unEscapeString(String s){
+	    StringBuilder sb = new StringBuilder();
+	    for (int i=0; i<s.length(); i++)
+	        switch (s.charAt(i)){
+	            case '\n': sb.append("\\n"); break;
+	            case '\t': sb.append("\\t"); break;
+	            // ... rest of escape characters
+	            default: sb.append(s.charAt(i));
+	        }
+	    return sb.toString();
 	}
 }
