@@ -46,7 +46,6 @@ public class OutStream implements Runnable{
 			if(clock.millis() - bufferTime > 1000) {
 				//log.log("-");
 				while(messageList.size() > 0) {
-					log.special(messageList.get(0));
 					sendUnmask(messageList.get(0));
 					messageList.remove(0);
 				}
@@ -62,9 +61,7 @@ public class OutStream implements Runnable{
 	
 	//send means to add to list to be sorted through
 	void send(String payload) {
-		log.log("payload");
 		messageList.add(payload);
-		log.log(messageList.size()+"");
 	}
 	
 	//sendUnmask acutally sends it to client

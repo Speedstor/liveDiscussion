@@ -263,16 +263,16 @@ public class ServerThread extends Thread{
 				
 				parameters.put(key, value);
 			}else {
-				return "-1 - parameter error";
+				return "0-parameter error";
 			}
 		}
 		
 		if(!parameters.containsKey("token")) {
-			return "-1 - must need token";
+			return "0-must need token";
 		}
 		
 		if(!parameters.containsKey("url")) {
-			return "-1 - must need url";
+			return "0-must need url";
 		}
 		
 		String canvasToken = (String) parameters.get("token");
@@ -280,7 +280,7 @@ public class ServerThread extends Thread{
 		String errorResponseString = "error: catch error";
 		if(testApiFetch == errorResponseString) {
 			log.warn("Invalid login attempt");
-			return "-1 - invalid token";
+			return "0-invalid token";
 		}
 		
 		//token for communication between server and client, not using canvas token

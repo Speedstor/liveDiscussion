@@ -69,16 +69,13 @@ public class DiscussionHandler implements Runnable{
 			//check every 5 seconds
 			if(clock.millis() - bufferTime > canvasUpdateFreq) {
 				bufferTime = clock.millis();
-				inUpdating = true;
+				
+				//will not update json if there is a new topic or reply being added
+				while(inUpdating);
+				
 				updateJson();
 				
 				
-				//----   done through direct functions update
-				//listen for posting new discussion
-				//updateJson
-				
-				//listen for new half messages from each websocket
-				//-----
 				
 				//dispatch changes to clients
 					//new discussions
@@ -88,15 +85,13 @@ public class DiscussionHandler implements Runnable{
 				if(!newContent.isEmpty()) {
 					log.log("newContent: "+newContent.toJSONString());
 					for(int i=0; i < participantList.size(); i++) {
-						websocketHandler.get(participantList.get(i)).sendUnmask(newContent.toJSONString());
+						websocketHandler.get(participantList.get(i)).sendUnmaskThread(newContent.toJSONString());
 					}
 					//update
 					newContent = new JSONObject();
 				
 				}
 				
-
-				inUpdating = false;
 			}		
 			
 		}
@@ -112,25 +107,47 @@ public class DiscussionHandler implements Runnable{
 	}
 
 	public void sendToAll(String payload) {
-		inUpdating = true;
 		for(int i=0; i < participantList.size(); i++) {
 			websocketHandler.get(participantList.get(i)).sendUnmaskThread(payload);
 		}
-		inUpdating = false;
 	}
 	
 	public void callUpdateJson() {
 		updateJson();
 	}
 	
-	public void sendNewTopic(String postId) {
-		//send what is a new post
-		sendToAll("post "+postId);
+	@SuppressWarnings("unchecked")
+	public void sendNewTopic(String topicJson) {
+		inUpdating = true;
+		try {
+			JSONObject entryJson = (JSONObject) parser.parse(topicJson);
+			String postId = (String) entryJson.get("id");
+			//send what is a new post
+			if(postId != null) {
+				((JSONObject) discussionJson.get("view")).put(postId, entryJson);				
+				sendToAll("post "+postId);
+			}
+		} catch (ParseException e) {
+			inUpdating = false;
+			log.error("parse for new topic id error");
+			//e.printStackTrace();
+		}
+		inUpdating = false;
 	}
 	
-	public void sendNewReply(String postId) {
-		//send the id of the new reply
-		sendToAll("reply "+postId);
+	public void sendNewReply(String topicId, String replyJson) {
+		inUpdating = true;
+		try {
+			JSONObject entryJson = (JSONObject) parser.parse(replyJson);
+			((JSONArray) ((JSONObject) ((JSONObject) discussionJson.get("view")).get(topicId)).get("replies")).add(entryJson);
+			//send the topic post id of the new reply
+			sendToAll("reply "+topicId);
+		} catch (ParseException e) {
+			inUpdating = false;
+			log.error("parse for new topic id error");
+			//e.printStackTrace();
+		}
+		inUpdating = false;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -146,7 +163,6 @@ public class DiscussionHandler implements Runnable{
 		String discussionJsonString = sendGet(url+"?include_new_entries=1&order_by=recent_activity&include_enrollment_state=1&include_context_card_info=1&access_token="+randomToken);
 		
 		if(discussionJsonString != "error: catch error") {
-
 			JSONObject convJson;
 			try {
 	            convJson = (JSONObject) parser.parse(discussionJsonString);
@@ -181,7 +197,7 @@ public class DiscussionHandler implements Runnable{
 								JSONArray newContentJson = new JSONArray();
 								viewSub.forEach((x) -> {
 									if(!((JSONObject) discussionJson.get("view")).containsKey(""+ ((JSONObject) x).get("id"))) {
-										newContentJson.add(x);
+										newContentJson.add(((JSONObject) x).get("id"));
 										((JSONObject) discussionJson.get("view")).put(""+((JSONObject) x).get("id"), x);
 									};
 								});
@@ -231,7 +247,11 @@ public class DiscussionHandler implements Runnable{
 						});
 					
 						if(!topicWrap.isEmpty()) {
-							newContent.put("newReplies", topicWrap);
+							ArrayList<String> topicIds = new ArrayList<String>();
+							topicWrap.forEach((k, v) -> {
+								topicIds.add((String) k);
+							}); 
+							newContent.put("newReplies", topicIds.toArray(new String[0]));
 						}
 					}
 				}

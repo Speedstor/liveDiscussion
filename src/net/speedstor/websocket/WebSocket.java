@@ -16,6 +16,10 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Arrays;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import net.speedstor.main.DiscussionHandler;
 import net.speedstor.main.Log;
 import net.speedstor.main.Server;
@@ -33,6 +37,9 @@ public class WebSocket{
 	String socketId;
 	private String discussionUrl;
 	Server server;
+	
+	//JSON parsing
+    JSONParser parser = new JSONParser();
 	
 	InStream inStream;
 	OutStream outStream;
@@ -69,23 +76,22 @@ public class WebSocket{
 	void postTopicMessage(String content) {
 		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
 		String response = sendPost(discussionUrl.replace("view", "")+"entries"+"?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
-		//discussionBoard
-		while(discussionBoard.inUpdating);
+		
+		discussionBoard.sendNewTopic(response);
 	}
 	
 	void replyToTopic(String targetTopic, String content) {
 		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
 		String response = sendPost(discussionUrl.replace("view", "")+"entries/"+targetTopic+"/replies?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
-	
-		while(discussionBoard.inUpdating);
+
+		//discussionBoard
+		discussionBoard.sendNewReply(targetTopic, response);
 	}
 	
 	String readMessage(DataInputStream in, int firstByte) {
 		try {
 			String frameHeaderBin = Integer.toBinaryString(firstByte);
 			frameHeaderBin += Integer.toBinaryString(in.read()); //2 bytes - frame header
-			
-			log.log(frameHeaderBin);
 			
 			boolean finBit = frameHeaderBin.substring(0, 1) == "1" ? false: true;
 			if(frameHeaderBin.substring(1, 4).contains("1")) log.warn("one of the rsv bits in websocket recieved packages is 1");

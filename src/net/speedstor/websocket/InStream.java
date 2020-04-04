@@ -60,7 +60,7 @@ public class InStream implements Runnable{
 						}else if(message == "pong-speedstor") {
 							
 						}else {
-							log.log("Socket recieved: " + message);
+							//log.log("Socket recieved: " + message);
 							
 							String command = "";
 							if(message.contains(" ")) {
