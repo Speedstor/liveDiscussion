@@ -96,6 +96,9 @@ public class ServerThread extends Thread{
 		        case "/initDiscu":
 		        	returnClientRequest = loginUser(request[1].substring(urlSeperatorLoc + 1));
 		        	break;
+		        case "/view":
+		        	returnClientRequest = requestDiscussionJson(request[1].substring(urlSeperatorLoc + 1));
+		        	break;
 		        case "/socket":
 		        	int success = upgradeToWebSocket(request[1].substring(urlSeperatorLoc + 1), requestHeader, requestHeaderString, inFromClient, headerOut, outToClient);
 		        	if(success == 1) {
@@ -133,7 +136,7 @@ public class ServerThread extends Thread{
 					break;
 		        case "":
 		        case "/":
-		        	returnClientRequest = "this canvas server for live discussion";
+		        	returnClientRequest = "this is a canvas server for live discussion";
 		        	break;
 		        default:
 					returnClientRequest = "404 - Not Found";
@@ -160,22 +163,70 @@ public class ServerThread extends Thread{
 				outToClient.flush();
 	
 		        
-		        StringBuilder stringBuilder = new StringBuilder();
+		        /*StringBuilder stringBuilder = new StringBuilder();
 		        String line;
 		        while( (line = inFromClient.readLine()) != null) {
 		        	stringBuilder.append(line+"\n");
 		        }
 		        String fullRequestHeader = stringBuilder.toString();
+		        */
 	        }
 	        
-	        
-			//client.close();
+	        /*try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        */
+			client.close();
 			
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	private String requestDiscussionJson(String parametersString) {
+		String[] parametersArray = parametersString.split("&");
+		HashMap<String, String> parameters = new HashMap<>();
+		for(int i = 0; i < parametersArray.length; i++) {
+			int equalLoc = parametersArray[i].indexOf("=");
+			if(equalLoc > 0) {
+				String key = parametersArray[i].substring(0, equalLoc);
+				String value = parametersArray[i].substring(equalLoc + 1);
+				
+				parameters.put(key, value);
+			}else {
+				return "0-parameter error";
+			}
+		}
+
+		if(!parameters.containsKey("socketId")) {
+			return "0-must need token";
+		}
+
+		if(!parameters.containsKey("url")) {
+			return "0-must need discussionUrl";
+		}
+		
+		WebSocket userSocket = websocketHandler.get(parameters.get("socketId"));
+		if(userSocket != null) {
+			String requestUrl = "https://fairmontschools.instructure.com/api/v1"+parameters.get("url").substring(parameters.get("url").indexOf("/courses/"))+"/view";
+			log.special(userSocket.getUrl());
+			log.special(requestUrl);
+			if(userSocket.getUrl().equals(requestUrl)) {
+				//had already logged in 
+				String responseJson = server.runningDiscussionBoards.get(requestUrl).getDiscussionJson();
+				log.log(responseJson);
+				return responseJson;
+			}else {
+				return "0-authorization needed";				
+			}
+		}else {
+			return "0-authorization needed";
+		}
+	}
+
 	private int upgradeToWebSocket(String parametersString, HashMap<String, String> clientRequest, String requestHeaderString, BufferedReader inFromClient, PrintWriter headerOut, BufferedOutputStream outToClient) {
 
 		try {
@@ -346,7 +397,6 @@ public class ServerThread extends Thread{
 			}
 			
 			
-			WebSocket newWebsocket = new WebSocket(log, clock, token, discussionUrl, server, tokenHandler);
 
 			String socketId = getAlphaNumericString(tokenLength);
 			//make sure no repeat
@@ -354,7 +404,11 @@ public class ServerThread extends Thread{
 				socketId = getAlphaNumericString(tokenLength);
 			}
 			
-			websocketHandler.addWebsocket(socketId, newWebsocket);
+			log.log("New Socket: "+ socketId);
+			
+			WebSocket newWebsocket = new WebSocket(log, clock, token, discussionUrl, server, tokenHandler, socketId);
+			
+			websocketHandler.addWebsocket(socketId, newWebsocket, token);
 			
 			token += "-" + socketId;
 			

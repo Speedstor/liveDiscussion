@@ -7,13 +7,15 @@ import net.speedstor.main.Log;
 public class WebSocketHandler {
 	Log log;
 	private HashMap<String, WebSocket> websockets = new HashMap<String, WebSocket>();
+	private HashMap<String, String> socketTokenMap = new HashMap<>();
 	
 	public WebSocketHandler(Log log) {
 		this.log = log;
 	}
 	
-	public int addWebsocket(String socketId, WebSocket websocket) {
+	public int addWebsocket(String socketId, WebSocket websocket, String serverToken) {
 		websockets.put(socketId, websocket);
+		socketTokenMap.put(socketId, serverToken);
 		return 1;
 	}
 	
@@ -23,6 +25,14 @@ public class WebSocketHandler {
 		}else {
 			return null;
 		}
+	}
+	
+	public String getServerToken(String socketId) {
+		if(socketTokenMap.containsKey(socketId)) {
+			return socketTokenMap.get(socketId);
+		}else {
+			return null;
+		}		
 	}
 	
 	public boolean containSocket(String socketId) {

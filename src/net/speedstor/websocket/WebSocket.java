@@ -34,9 +34,11 @@ public class WebSocket{
 	TokenHandler tokenHandler;
 	Clock clock;
 	private Boolean running;
-	String socketId;
 	private String discussionUrl;
 	Server server;
+	
+	String serverToken;
+	String socketId;
 	
 	//JSON parsing
     JSONParser parser = new JSONParser();
@@ -44,13 +46,14 @@ public class WebSocket{
 	InStream inStream;
 	OutStream outStream;
 
-	public WebSocket(Log log, Clock clock, String socketId, String discussionUrl, Server server, TokenHandler tokenHandler) {
+	public WebSocket(Log log, Clock clock, String serverToken, String discussionUrl, Server server, TokenHandler tokenHandler, String socketId) {
 		this.log = log;
 		this.clock = clock;
-		this.socketId = socketId;
+		this.serverToken = serverToken;
 		this.discussionUrl = discussionUrl;
 		this.server = server;
 		this.tokenHandler = tokenHandler;
+		this.socketId = socketId;
 	}
 	
 	public void initSetup(Socket client, BufferedReader inFromClient, BufferedOutputStream outToClient) {
@@ -75,14 +78,14 @@ public class WebSocket{
 
 	void postTopicMessage(String content) {
 		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
-		String response = sendPost(discussionUrl.replace("view", "")+"entries"+"?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
+		String response = sendPost(discussionUrl.replace("view", "")+"entries"+"?access_token="+tokenHandler.get(serverToken), "{\"message\": \""+content+"\"}");
 		
 		discussionBoard.sendNewTopic(response);
 	}
 	
 	void replyToTopic(String targetTopic, String content) {
 		DiscussionHandler discussionBoard = server.runningDiscussionBoards.get(discussionUrl);
-		String response = sendPost(discussionUrl.replace("view", "")+"entries/"+targetTopic+"/replies?access_token="+tokenHandler.get(socketId), "{\"message\": \""+content+"\"}");
+		String response = sendPost(discussionUrl.replace("view", "")+"entries/"+targetTopic+"/replies?access_token="+tokenHandler.get(serverToken), "{\"message\": \""+content+"\"}");
 
 		//discussionBoard
 		discussionBoard.sendNewReply(targetTopic, response);
@@ -272,6 +275,10 @@ public class WebSocket{
 	
 	public String getUrl() {
 		return discussionUrl;
+	}
+	
+	public String getId() {
+		return socketId;
 	}
 
 	public void sendBinary(String binaryString) {

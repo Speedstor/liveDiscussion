@@ -41,7 +41,7 @@ public class DiscussionHandler implements Runnable{
 		this.url = url;
 		this.clock = clock;
 		this.tokenHandler = tokenHandler;
-		this.backupToken = backupToken; //first user's token
+		this.backupToken = backupToken; //first user's server token
 		this.websocketHandler = websocketHandler;
 		
 		
@@ -76,7 +76,6 @@ public class DiscussionHandler implements Runnable{
 				updateJson();
 				
 				
-				
 				//dispatch changes to clients
 					//new discussions
 					//new replies
@@ -104,6 +103,10 @@ public class DiscussionHandler implements Runnable{
 				 */
 		
 		sendToAll("sync "+username+" "+content+"");
+	}
+	
+	public String getDiscussionJson() {
+		return discussionJson.toJSONString();
 	}
 
 	public void sendToAll(String payload) {
@@ -168,8 +171,11 @@ public class DiscussionHandler implements Runnable{
 	            convJson = (JSONObject) parser.parse(discussionJsonString);
 	            
 	            if(!discussionJson.containsKey("participants")) {
-	            	JSONArray participantsSub;
-	            	if((participantsSub = (JSONArray) convJson.get("participants")) != null) {
+	            	if(convJson.containsKey("participants")) {
+	            		JSONObject participantsSub = new JSONObject();
+	            		((JSONArray) convJson.get("participants")).forEach((participantObject) -> {
+	            			participantsSub.put(""+((JSONObject) participantObject).get("id"), (JSONObject) participantObject);
+	            		});
 	            		discussionJson.put("participants", participantsSub);
 	            	}
 	            }
@@ -184,7 +190,7 @@ public class DiscussionHandler implements Runnable{
 					if(!discussionJson.containsKey("view")) {
 						JSONObject viewJson = new JSONObject();
 						viewSub.forEach((x) -> {
-							viewJson.put(((JSONObject) x).get("id"), x);
+							viewJson.put(""+((JSONObject) x).get("id"), x);
 						});
 						discussionJson.put("view", viewJson);
 					}else {
@@ -211,6 +217,7 @@ public class DiscussionHandler implements Runnable{
 						viewSub.forEach((topicFromNew) -> {
 							JSONArray newReplyForTopic = new JSONArray();
 							
+
 							JSONObject topicFromOld = (JSONObject) ((JSONObject) discussionJson.get("view")).get(""+((JSONObject) topicFromNew).get("id"));
 							JSONArray repliesFromOld = (JSONArray) topicFromOld.get("replies");
 							JSONArray repliesFromNew = (JSONArray) ((JSONObject) topicFromNew).get("replies");
