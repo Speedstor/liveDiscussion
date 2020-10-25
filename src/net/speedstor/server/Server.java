@@ -1,23 +1,23 @@
-package net.speedstor.main;
+package net.speedstor.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.Clock;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.json.simple.JSONObject;
-
+import net.speedstor.control.Log;
+import net.speedstor.discussion.DiscussionHandler;
+import net.speedstor.main.Cache;
+import net.speedstor.main.TokenHandler;
 import net.speedstor.websocket.WebSocketHandler;
 
 public class Server implements Runnable{
 	Log log;
+	Cache cache;
 	public boolean running = false;
 
 	ServerSocket serverSocket;
 	TokenHandler tokenHandler;
+	DiscussionHandler discussionHandler;
 	int port;
 	
 	WebSocketHandler websocketHandler;
@@ -25,17 +25,15 @@ public class Server implements Runnable{
 	Clock clock;
 	double startTime;
 	
-	public HashMap<String, DiscussionHandler> runningDiscussionBoards = new HashMap<String, DiscussionHandler>();
-	
-	public HashMap<String, Integer> clientConnections = new HashMap<String, Integer>();
-	
-	public Server(Log log, Clock clock, int port, double startTime, WebSocketHandler websocketHandler, TokenHandler tokenHandler) {
+	public Server(Log log, Clock clock, int port, double startTime, WebSocketHandler websocketHandler, TokenHandler tokenHandler, DiscussionHandler discussionHandler, Cache cache) {
 		this.log = log;
 		this.port = port;
 		this.clock = clock;
 		this.startTime = startTime;
 		this.tokenHandler = tokenHandler;
 		this.websocketHandler = websocketHandler;
+		this.discussionHandler = discussionHandler;
+		this.cache = cache;
 		running = true;
 	}
 	
@@ -58,7 +56,7 @@ public class Server implements Runnable{
 	        	Socket client = serverSocket.accept();
 	        	
 	        	//move to a new thread for dealing with request
-	        	Thread serverThread = new ServerThread(client, log, this, websocketHandler, clock, tokenHandler);
+	        	Thread serverThread = new ServerThread(client, log, this, websocketHandler, clock, tokenHandler, discussionHandler, cache);
 	        	serverThread.start();
 	        	
 	        }catch ( java.io.InterruptedIOException e ) {

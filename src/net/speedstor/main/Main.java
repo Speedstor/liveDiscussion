@@ -1,15 +1,21 @@
 package net.speedstor.main;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 
-import net.speedstor.outdated.LoopedCheck;
+import net.speedstor.control.Cmd;
+import net.speedstor.control.Log;
+import net.speedstor.control.Settings;
+import net.speedstor.discussion.DiscussionHandler;
+import net.speedstor.server.Server;
 import net.speedstor.websocket.WebSocketHandler;
 
 public class Main {
 	static Main main;
-	LoopedCheck loopCheck;
 	
 	//status
 	boolean threadStatus_1 = false;
@@ -19,6 +25,16 @@ public class Main {
 		System.out.println("------------------------------------------");
 		System.out.println(" Canvas Bot 0.5                            ");
 		System.out.println("------------------------------------------");
+
+		FileWriter fr;
+		try {
+			fr = new FileWriter(new File(Settings.DOCS_LOC, "log_"+Clock.systemDefaultZone().instant().toString().substring(0, 10))+".txt", true);
+			fr.write("\n"+"------------------------------------------\n Canvas Bot 0.5                            \n------------------------------------------");
+			fr.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		main = new Main();
 		main.start();
 	}
@@ -32,10 +48,12 @@ public class Main {
 
 	Cmd cmd;
 	Log log;
+	Cache cache;
 	Clock clock;
 	Server server;
 	WebSocketHandler websocketHandler;
 	TokenHandler tokenHandler;
+	DiscussionHandler discussionHandler;
 
 	Thread serverThread;
 	Thread cmdThread;
@@ -45,44 +63,26 @@ public class Main {
 		double timeStart = clock.millis();
 		serverStartTime = clock.instant();
 		
-		
-		//log
 		log = new Log(clock);	
 		
-		//websockethandler
-		websocketHandler = new WebSocketHandler(log);
+		cache = new Cache(log);
 		
-		//tokenHandler
-		tokenHandler = new TokenHandler(log);
+		tokenHandler = new TokenHandler(log, false);
+		
+		websocketHandler = new WebSocketHandler(log, tokenHandler);
+		
+		discussionHandler = new DiscussionHandler(log, clock, tokenHandler, websocketHandler);
 
-		//server
 		int port = 40;
-		server = new Server(log, clock, port, timeStart, websocketHandler, tokenHandler);
+		server = new Server(log, clock, port, timeStart, websocketHandler, tokenHandler, discussionHandler, cache);
 		serverThread = new Thread(server);
 		serverThread.start();
 
-		cmd = new Cmd(main, log, server, websocketHandler);
+		cmd = new Cmd(main, log, server, websocketHandler, tokenHandler, discussionHandler);
 		cmdThread = new Thread(cmd);
 		cmdThread.start();
 
 		log.log("Started @" + (clock.millis() - timeStart) + "ms");
-		
-		//canvas email bot
-		/*
-		//get list
-		tokenList = new Object[1][6];
-		
-		//tokenList[0] = new Object[6];
-		tokenList[0][0] = new String("8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ");
-		
-		//start loop
-		loopCheck = new LoopedCheck(tokenList);
-		if(loopCheck.getCheckList() == tokenList) {
-			loopCheckThread = new Thread(loopCheck);
-			loopCheckThread.start();
-			threadStatus_1 = true;
-		}	
-		*/
 	}
 	
 	
@@ -90,8 +90,13 @@ public class Main {
 		((Server) server).setRunning(false);
 		log.logStop("Stopping Server...");
 		while(((Server) server).ifRunning()) {
-			
+	        try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				log.error("interrupted server closing");
+			}
 		}
+		cache.save();
 		long runTimeSecond = Duration.between(serverStartTime, clock.instant()).getSeconds();
 		int runTimeMinute = (int) runTimeSecond / 60;
 		int runTimeMinSec = (int) runTimeSecond % 60;
