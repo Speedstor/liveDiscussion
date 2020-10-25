@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="utf-8"> 
+    <title>Canvas Live Discussion</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="Speedstor - Aldrin">  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/liveDiscussion.css">
+    <link rel="stylesheet" href="./css/spz.css">
+    <script src="https://kit.fontawesome.com/451d58907c.js" crossorigin="anonymous"></script>
+    <script src="js/textBox.js"></script>
+    <script src="js/messageFeed.js"></script>
+</head>
+
+<body style="height: 100%; min-height: 640px;">
+    <!-- <script src="js/main.js"></script> -->
+    <script src="js/liveDiscussion.js"></script>
+    <header style="width: 100%; height: 72px; border-bottom: solid 0.5px rgb(206, 206, 206) ;">
+        <img src="img/canvasLogo.png" style="height: 35px; margin-top: 18.5px; margin-left: 25px; float:left;"/>
+        <h4 style="margin-top: 20px; margin-left: 65px; color: dimgrey; float: left; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" id="discussionTopic"></h4>
+        <button class="btn btn-outline-success align-middle" style="float:right;  margin-top: 19.5px; margin-right: 20px; ">Help</button>
+    </header>
+    
+    
+    
+    
+    <form id='loginForm' class='card' style="width: 650px; height: 320px; margin: auto; margin-top: calc((100vh - 72px - 270px) * 1/3);">
+        <div style="width: 100%; padding: 20px; padding-bottom: 0px;"  class="btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-secondary active" style="width: 42%;" onclick="displayLogin('canvas');" >
+                <input name="discussionType" id="canvasOption" type="radio" autocomplete="off"  checked>Canvas
+            </label>
+            <label class="btn btn-outline-secondary " style="width: 42%;"  onclick="displayLogin('discussion');">
+                <input name="discussionType" id="discussionOption" type="radio" autocomplete="off">Discussion
+            </label>
+            <label class="btn btn-outline-secondary " style="width: 14%;"  onclick="displayLogin('test');">
+                <input name="discussionType" id="testOption" type="radio" autocomplete="off">Test
+            </label>
+        </div>
+
+        <div class='card-body' id="loginFormBody">
+            <div id='discussionLogin' style="display: none;">
+                <div class="input-group mb-3" style="margin-top: 20px !important;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Discussion Id:</span>
+                    </div>
+                    <input type="url" class="form-control" aria-label="Default" id='discussionId' name='discussionUrl' aria-describedby="inputGroup-sizing-default">
+                
+                    <div class="invalid-feedback">
+                        Invalid id. Please try again, or consult the host of the discussion
+                    </div>
+                </div>
+                
+                <div class="input-group mb-3" style="margin-bottom: 40px !important;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Name:</span>
+                    </div>
+                    <input type="text" class="form-control" id="userChosenName" name="userChosenName" aria-label="Default" id='canvasToken' name='canvasToken' aria-describedby="inputGroup-sizing-default">
+                    
+                    <div class="invalid-feedback">
+                        
+                    </div>
+                </div>
+            </div>
+
+            
+            <div id='testLogin' style="display: none;">
+                <div class="input-group mb-3" style="margin-top: 50px; margin-bottom: 56px !important;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">CanvasToken:</span>
+                    </div>
+                    <input type="text" class="form-control is-invalid" id="canvasToken-direct" name="canvasToken"  value="8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ" aria-label="Default" id='canvasToken' name='canvasToken' aria-describedby="inputGroup-sizing-default">
+                    
+                    <div class="invalid-feedback">
+                        This is only for testing. The secure login system will be implemented after agreement.
+                    </div>
+                </div>
+            </div>
+
+            <div id='canvasLogin' style="display: flex; align-items: center; align-content: center; justify-content: center;">
+                <img src="img/canvasLogo.png" style="height: 35px; margin-top: 70px; margin-bottom: 60px;"/>
+            </div>
+
+            <button type="button" class="btn btn-outline-info" style="width: 100%;" onclick="loginOnClick();">Join</button>
+        </div>
+    </form>
+    <div id="appWrap" style="width: 100%; height: calc(100% - 72px); display: none;">
+        <div id="participantList" class="scrollbar-grey" style="overflow: auto; float:left; width: 280px; height: 100%; background: rgb(243, 242, 242);">
+            
+        </div>
+        <div style="float:right; width: calc(100% - 280px); height: 100%;">
+            <div id='initialPrompt' style="width: calc(100% - 280px); position:absolute; background: unset; height: unset; overflow-y: auto;">
+                <div class='card' id='initialPromptCard' style="transition: 100ms all linear; overflow-y: hidden;">
+                    <div style="padding:10px;">
+                        <h5>Initial Prompt</h5>
+                        <div style="padding-left: 12px;" id="initialPromptParagraph">
+                            <p>To what extenet did the locarno conferene ease tensions in 1920s Europe</p>
+                        </div>
+                    </div>
+                </div>
+                <button class='btn btn-outline-secondary' style="float:right; font-size: 10px;" onclick="hideInitialPrompt();"><i id='initialPromptText' class="fas fa-chevron-up"></i></button>
+            </div>
+            <div id="messageWrap" style="height: 100%; width: 100%; ">
+                <div id="" style="height: calc(100% - 40px); padding-bottom: 67px; width: 100%">
+                    <div id="messageFeed" style="height: calc(100% + 48px); padding-bottom: 10px; width: 100%">
+                        
+                    </div>
+                </div>
+
+                <div id="messageToolbar" style="position: relative; top: -75px; transition: 80ms ease-in-out all; background: white; border: 1px solid rgb(172, 172, 172); border-radius: 5px; width: unset; display: inline-block; height: 38px; z-index: 1; margin-left: 70px;">
+                    
+                </div>
+                <div style="position: relative; bottom: 70px; height: 52px; width: calc(100% - 40px); margin: auto; z-index: 2;">
+                    <div class="input-group mb-3" id="messageBar" style="position: absolute; bottom: -6px; margin-top: 0px; display: flex; background:rgb(255, 255, 255); border: 1px solid rgb(206, 206, 206); border-radius: 50px; padding-right: 8px; padding-left: 5px; height: 39px; align-items: center;">
+                        <div class="input-group-prepend" style="height: 39px;">
+                            <input type="checkbox" id="toolBarToggle" onchange="toolbarToggle(this);" class="dropdownCheckbox" checked>
+                            <label for="toolBarToggle" class="btn btn-outline-secondary messageButton" style="margin-right: 5px; border: none; border-radius: 50px 3px 3px 50px;"" type="button"><i id="toolBarArrow" class="far fa-caret-square-down"></i></label>
+                        </div>
+                        <div class="messageInput textBox" id="textBox" style="width: calc(100% - 190px); margin-top: 4px; border: none transparent; outline: none; flex-grow: 2; appearance: none; resize: none; height: 100%; line-height: unset;" contenteditable="true">
+                        </div>
+                        <div class="input-group-append" style="padding-left: 20px; height: 39px;">
+                            <div class="onoffswitch" style="height: 24px; margin-top: 5px;">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+                                <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                            <button class="btn btn-outline-secondary messageButton" style="left: 4px; border: none; border-radius: 3px 50px 50px 3px;" type="button"><i class="fas fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    <div id="msg">
+
+    </div>
+
+    <input type="text" style="width: 300px; height: 100px;" onchange="textInputChange();" onkeyup="this.onchange();" id="msgIn"/>
+    -->
+</body>
+</html>
