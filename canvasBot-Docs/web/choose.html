@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="js/checkLogin.js"></script>
+  <meta charset="utf-8">
+
+  <title>Canvas Live Discussion - Index</title>
+  <meta name="description" content="Choosing discussion board to jump into">
+  <meta name="author" content="Speedstor">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/451d58907c.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="./css/liveDiscussion.css">
+  <link rel="stylesheet" href="./css/spz.css">
+</head>
+
+<body>
+  <script src="js/choose.js"></script>
+  <header style="width: 100%; height: 72px; border-bottom: solid 0.5px rgb(206, 206, 206) ;">
+      <img src="img/canvasLogo.png" style="height: 35px; margin-top: 18.5px; margin-left: 25px; float:left;"/>
+      <h4 style="margin-top: 20px; margin-left: 65px; color: dimgrey; float: left; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" id="discussionTopic"></h4>
+      <button class="btn btn-outline-success align-middle" style="float:right;  margin-top: 19.5px; margin-right: 20px; ">Help</button>
+  </header>
+
+  
+  <div class="input-group mb-3" style="width: 80%; max-width: 1000px; margin: auto; margin-top: 50px;">
+    <div class="input-group">
+      <span class="input-group-text" >Direct Link</span>
+      <span class="input-group-text" style="background-color:rgb(248, 248, 248)">/courses/</span>
+      <input type="number" class="form-control" id='courseId' style="-webkit-appearance: textfield;">
+      <span class="input-group-text" style="background-color:rgb(248, 248, 248)">/discussionTopic/</span>
+      <input type="number" class="form-control" id='discussionId' style="-webkit-appearance: textfield;">
+      <div class="input-group-append">
+        <button class="btn btn-outline-success" type="button" onclick="directGo();">Go</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="width: 80%; max-width: 1000px; margin: auto; margin-top: 30px;">
+    <div class="card-body" id='discussionList'>
+      <div id="loader" style="display:flex; justify-content: center;">
+        <img src="img/loader.gif" style="height: 62px;" />
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>

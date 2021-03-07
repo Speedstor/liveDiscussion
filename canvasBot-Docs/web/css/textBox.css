@@ -1,0 +1,136 @@
+.tB-toolbar{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.tB-toolButton{
+    position: relative;
+    box-sizing: border-box;
+    height: 26px;
+    width: 26px;
+    top: calc((100% - 26px)/3);
+    font-size: 13px;
+    padding: 0px;
+    margin-right: 2px;
+    background: transparent;
+    color: rgb(95, 95, 95);
+}
+
+.tB-toolButton:hover{
+    background: rgba(206, 205, 205, 0.26);
+}
+
+.tB-toolButton:active, .tB-toolButton:focus{
+    outline: none !important;
+    border: none !important;
+    box-shadow: none;
+}
+
+.tB-toolButton-active{
+    background: rgba(223, 238, 230, 0.616);
+    color: rgb(4, 114, 77);
+    
+}
+
+.tB-margin{
+    position: relative;
+    height: 26px;
+    top: calc((100% - 26px)/3);
+    background: transparent;
+    width: 20px;
+    display: inline-block;
+    margin: 0px;
+    margin-right: 3px;
+    vertical-align: top;
+    text-align: center;
+    color: rgb(180, 179, 179);
+}
+
+.tB-margin::after{
+    content: "|"
+}
+
+.tB-toolButton-long{
+    width: unset;
+    overflow-x: auto;
+    padding: 0px 6px 0px 12px;
+}
+
+.tB-tool-divWrap{
+    position: relative;
+    height: 100%;
+    vertical-align: top;
+    display: inline-block;
+}
+
+.tB-toolButton-long:active{
+    background: rgba(194, 194, 194, 0.486);
+}
+
+
+/*show the submenu when input is checked*/
+.tB-dropdownCheckbox:checked~div.tB-dropdown {
+    display: block;
+}
+
+.tB-toolButton-long:focus + div{
+    display: block;
+}
+
+.tB-dropdownCheckbox{
+    display: none;
+}
+
+
+.tB-toolButton-long:focus{
+    background: rgba(223, 238, 230, 0.616);
+    color: rgb(4, 114, 77);
+}
+
+.tB-dropdown{
+    display: none;
+    position: absolute;
+    bottom: 32px;
+    background: white;
+    box-shadow: 0.5px 0.5px 1px rgba(218, 218, 218, 0.438), 1px 1px 1px  rgb(243, 243, 243) inset;
+    border-radius: 4px;
+}
+
+.tB-dropdownButton{
+    width: 100%;
+    border-radius: 0px;
+    text-align: left;
+    padding: 4px 6px 4px 18px;
+    margin: 0px;
+    height: unset;
+    box-sizing: border-box;
+}
+
+.mentionBlock::before { 
+    font-family:inherit;
+    font-size:inherit;
+    font-weight:inherit;
+    background:rgb(158, 231, 221); 
+    border:1px solid black;
+    padding: 2px 4px;
+    display:inline-block; 
+}
+
+.tB-editor p:first-child{
+
+}
+
+.tB-editor{
+    
+}
+
+.tB-editor p{
+    width: 100%;
+    min-height: 24px;
+    height: unset;
+    margin-bottom: 9px;
+}
+
+.tB-editor p:last-child{
+    margin-bottom: 0px;
+}

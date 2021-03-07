@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <script src="js/checkLogin.js"></script>
+    <meta charset="utf-8"> 
+    <title>Canvas Live Discussion</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="Speedstor - Aldrin">  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/liveDiscussion.css">
+    <link rel="stylesheet" href="./css/spz.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="765631845992-a6uae10sikm1d3o0nsp1r149o8gq9sbl.apps.googleusercontent.com">
+    <script src="https://kit.fontawesome.com/451d58907c.js" crossorigin="anonymous"></script>
+</head>
+
+<body style="height: 100%; min-height: 640px; overflow: hidden;">
+    <div id='helpOverlay' style="position: absolute;width: 100%;height: 100%;z-index: 100;background: rgba(0, 0, 0, 0.3); display: none;" onclick="this.style.display = 'none'">
+        <div class='card draggable' style="position: absolute; top: 100px; left: 240px">
+            <div class='card-body'>
+                <p>The <b>List of users</b> each have the option to:</p>
+                <div style='color: rgb(80, 92, 161);'>&nbsp; -&nbsp;skip to message (scroll to person's posts) </div>
+                <div style='color: rgb(112, 165, 182);'>&nbsp; -&nbsp;and to be mentioned in your text box below</div>
+            </div>
+        </div>
+        <div class='card draggable' style="position: absolute; top: 65px; right: 48px">
+            <div class='card-body'>
+                <p><b>Dropdown</b> to:</p>
+                <div style='color: rgb(112, 165, 182);'>&nbsp; -&nbsp;look at the topic for the discussion</div>
+            </div>
+        </div>
+        <div class='card draggable' style="position: absolute; bottom: 200px; right: 240px">
+            <div class='card-body'>
+                <p><b>Messages / Reply</b> can:</p>
+                <div style='color: rgb(112, 165, 182);'>&nbsp; -&nbsp;hovered over to click and reply</div>
+            </div>
+        </div>
+        <div class='card draggable' style="position: absolute; bottom: 80px; left:30px">
+            <div class='card-body'>
+                <p><b>Sync your </b>Google profile image:</p>
+                <div style='color: rgb(112, 165, 182);'>&nbsp; -&nbsp;set your profile picture</div>
+            </div>
+        </div>
+        <div class='card draggable' style="position: absolute; bottom: 110px; left:500px">
+            <div class='card-body'>
+                <p><b>Text Box </b>with live feed:</p>
+                <div style='color: rgb(112, 165, 182);'>&nbsp; -&nbsp;whatever you type here will be shown to others (click live to disable)</div>
+                <div style='color: rgb(112, 165, 182);'>&nbsp; -&nbsp;to show only when sent, click the <b>live toggle switch</b></div>
+                <div style='color: rgb(112, 165, 182);'>&nbsp; -&nbsp;If you do not type for <b>20 seconds</b> it would timeout and not show</div>
+            </div>
+        </div>
+    </div>
+    <!-- <script src="js/main.js"></script> -->
+    <script src="js/textBox.js"></script>
+    <script src="js/messageFeed.js"></script>
+    <script src="js/s_websocket.js"></script>
+    <script src="js/discussion.js"></script>
+    <header style="width: 100%; height: 72px; border-bottom: solid 0.5px rgb(206, 206, 206) ; background: white;">
+        <img src="img/canvasLogo.png" style="height: 35px; margin-top: 18.5px; margin-left: 25px; float:left;"/>
+        <h4 style="margin-top: 20px; margin-left: 65px; color: dimgrey; float: left; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" id="discussionTopic"></h4>
+        <button class="btn btn-outline-danger align-middle" onclick="eraseCookie('accountId'); setTimeout(() => {window.location.href=currentPageUrl+pageExt}, 100);"  style="float:right;  margin-top: 19.5px; margin-right: 20px; ">Log Out</button>
+        <button class="btn btn-outline-primary align-middle" style="float:right;  margin-top: 19.5px; margin-right: 20px; " onclick="window.location.href=currentPageUrl+pageExt+'/choose.html'">Switch</button>
+        <button class="btn btn-outline-success align-middle" style="float:right;  margin-top: 19.5px; margin-right: 20px; " onclick="document.getElementById('helpOverlay').style.display = 'block';">Help</button>
+    </header>
+
+    <div id="appWrap" style="width: 100%; height: calc(100% - 72px); display: block;">
+        <div style="overflow: hidden; float: left; width: 280px; height: 100%; border-right: 1px solid grey;">
+            <div class="card" style='height: 27px;'>
+                <h6 style='padding-left: 20px; display: block; float: left;'>Room Users</h6>
+            </div>
+            <div id="participantList" class="scrollbar-grey" style="overflow: auto;width: 280px; height: calc(100% - 99px); background: linear-gradient(216deg, #ffffff 0%, #DEDEF1 70%, #e195a2cf 100%);">
+                
+            </div>
+            <div class="card" style=''>
+                <h6 style='padding-left: 20px; display: block; float: left; font-size: 11px; margin: 0px; margin-top: 4px; margin-bottom: 2px;'>Sync Google profile picture</h6>
+            </div>
+            <div style="padding: 8px 0px; margin:auto; display: flex; align-items: center; justify-content: center;">
+                <div class="g-signin2" data-onsuccess="onGoogleSignIn"></div>
+            </div>
+        </div>
+        <div style="float:right; width: calc(100% - 280px); height: 100%;">
+            <div id='initialPrompt' style="z-index: 10; width: calc(100% - 280px); position: absolute; background: unset; height: unset; overflow-y: auto;">
+                <div class='card' id='initialPromptCard' style="transition: 100ms all linear; overflow-y: hidden; padding-left: 22px;">
+                    <div style="padding:10px;">
+                        <h5>Initial Prompt</h5>
+                        <div style="padding-left: 12px;" id="initialPromptParagraph">
+                            
+                        </div>
+                    </div>
+                </div>
+                <button class='btn btn-outline-secondary' style="float:right; font-size: 10px;" onclick="hideInitialPrompt();">Topic &nbsp;&nbsp;<i id='initialPromptText' class="fas fa-chevron-up"></i></button>
+            </div>
+            <div id="messageWrap" style="height: 100%; width: 100%; ">
+                <div id="" style="height: calc(100% - 40px); padding-bottom: 67px; width: 100%">
+                    <div id="messageFeed" class="messageFeed" style="height: calc(100% + 48px); padding-bottom: 10px; width: 100%">
+                        <div id='toBottomBtn-Wrap' style="display: block; position: absolute; bottom: 113px; right: -100px; z-index: 3; transition: all 100ms ease-out;">
+                            <button id='toBottomBtn' onclick='messageFeedScrollBottom()' class='btn btn-sm btn-info'>v To Bottom</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="messageToolbar" style="position: relative; top: -75px; transition: 80ms ease-in-out all; background: white; border: 1px solid rgb(172, 172, 172); border-radius: 5px; width: unset; display: inline-block; height: 38px; z-index: 1; margin-left: 70px;">
+                    
+                </div>
+                <div style="position: relative; bottom: 70px; height: 52px; width: calc(100% - 40px); margin: auto; z-index: 2;">
+                    <div class="input-group mb-3" id="messageBar" style="position: absolute; bottom: -6px; margin-top: 0px; display: flex; background:rgb(255, 255, 255); border: 1px solid rgb(206, 206, 206); border-radius: 50px; padding-right: 8px; padding-left: 5px; height: 39px; align-items: center;">
+                        <div class="input-group-prepend" id="textBox-prepend" style="height: 39px;">
+                            <input type="checkbox" id="toolBarToggle" onchange="toolbarToggle(this);" class="dropdownCheckbox" checked>
+                            <label for="toolBarToggle" class="btn btn-outline-secondary messageButton" style="margin-right: 5px; border: none; border-radius: 50px 3px 3px 50px;"" type="button"><i id="toolBarArrow" class="far fa-caret-square-down"></i></label>
+                        </div>
+                        <div class="messageInput textBox" id="textBox" style="width: calc(100% - 190px); margin-top: 4px; border: none transparent; outline: none; flex-grow: 2; appearance: none; resize: none; height: 100%; line-height: unset;" contenteditable="true">
+                        </div>
+                        <div class="input-group-append" style="padding-left: 20px; height: 39px;">
+                            <div class="onoffswitch" style="height: 24px; margin-top: 5px;">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="liveCheckbox" onchange="toggleLiveMessage(null)" checked>
+                                <label class="onoffswitch-label" for="liveCheckbox">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                            <button class="btn btn-outline-secondary messageButton" onclick="textBox_onSend();" style="left: 4px; border: none; border-radius: 3px 50px 50px 3px;" type="button"><i class="fas fa-angle-right"></i></button>
+                            <div class="send-tooltip">Ctrl + Enter to send</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

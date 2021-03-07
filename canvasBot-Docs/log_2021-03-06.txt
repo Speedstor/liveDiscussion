@@ -1,0 +1,128 @@
+
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-06 23:32:36  (1)LOG: Cache store retrieved from file
+2021-03-06 23:32:36  (1)LOG: Started @61.0ms
+2021-03-06 23:32:36  (1)LOG: Api server open on port: (40)
+2021-03-06 23:32:36  (1)LOG: API Server started: 67.0ms
+2021-03-06 23:32:49  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4458,localport=40]; Path: GET / HTTP/1.1
+2021-03-06 23:32:50  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4459,localport=40]; Path: GET /favicon.ico HTTP/1.1
+2021-03-06 23:35:09  (4)STOP: Stopping Server...
+2021-03-06 23:35:09  (1)LOG: Saved Cache in file
+2021-03-06 23:35:09  (4)STOP: Server stopped; run time: @2m32s
+2021-03-06 23:35:09  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-06 23:41:37  (1)LOG: Cache store retrieved from file
+2021-03-06 23:41:37  (1)LOG: Started @41.0ms
+2021-03-06 23:41:37  (1)LOG: Api server open on port: (40)
+2021-03-06 23:41:37  (1)LOG: Web server open on port: (80)
+2021-03-06 23:41:37  (1)LOG: API Server started: 45.0ms
+2021-03-06 23:41:37  (1)LOG: Web Server started: 45.0ms
+2021-03-06 23:41:46  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4523,localport=40]; Path: GET / HTTP/1.1
+2021-03-06 23:41:47  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4524,localport=40]; Path: GET /favicon.ico HTTP/1.1
+2021-03-06 23:44:40  (4)STOP: Stopping Server...
+2021-03-06 23:44:40  (1)LOG: Saved Cache in file
+2021-03-06 23:44:40  (4)STOP: Server stopped; run time: @3m2s
+2021-03-06 23:44:40  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-06 23:44:45  (1)LOG: Cache store retrieved from file
+2021-03-06 23:44:45  (1)LOG: Started @50.0ms
+2021-03-06 23:44:45  (1)LOG: Web server open on port: (80)
+2021-03-06 23:44:45  (1)LOG: Api server open on port: (40)
+2021-03-06 23:44:45  (1)LOG: Web Server started: 55.0ms
+2021-03-06 23:44:45  (1)LOG: API Server started: 55.0ms
+2021-03-06 23:46:17  (4)STOP: Stopping Server...
+2021-03-06 23:46:17  (1)LOG: Saved Cache in file
+2021-03-06 23:46:17  (4)STOP: Server stopped; run time: @1m32s
+2021-03-06 23:46:17  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-06 23:46:20  (1)LOG: Cache store retrieved from file
+2021-03-06 23:46:20  (1)LOG: Started @75.0ms
+2021-03-06 23:46:20  (1)LOG: Api server open on port: (40)
+2021-03-06 23:46:20  (1)LOG: Web server open on port: (80)
+2021-03-06 23:46:20  (1)LOG: API Server started: 83.0ms
+2021-03-06 23:46:20  (1)LOG: Web Server started: 83.0ms
+2021-03-06 23:46:20  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:46:20  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:46:56  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:46:56  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:47:47  (4)STOP: Stopping Server...
+2021-03-06 23:47:47  (1)LOG: Saved Cache in file
+2021-03-06 23:47:47  (4)STOP: Server stopped; run time: @1m26s
+2021-03-06 23:47:47  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-06 23:47:51  (1)LOG: Cache store retrieved from file
+2021-03-06 23:47:51  (1)LOG: Started @104.0ms
+2021-03-06 23:47:51  (1)LOG: Api server open on port: (40)
+2021-03-06 23:47:51  (1)LOG: Web server open on port: (80)
+2021-03-06 23:47:51  (1)LOG: API Server started: 114.0ms
+2021-03-06 23:47:51  (1)LOG: Web Server started: 115.0ms
+2021-03-06 23:47:55  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:47:55  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:48:42  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:49:16  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:49:54  (3)DEBUG: @WebServer-run()[51]: recieved
+2021-03-06 23:49:59  (4)STOP: Stopping Server...
+2021-03-06 23:49:59  (1)LOG: Saved Cache in file
+2021-03-06 23:49:59  (4)STOP: Server stopped; run time: @2m8s
+2021-03-06 23:49:59  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-06 23:50:03  (1)LOG: Cache store retrieved from file
+2021-03-06 23:50:03  (1)LOG: Started @63.0ms
+2021-03-06 23:50:03  (1)LOG: Web server open on port: (80)
+2021-03-06 23:50:03  (1)LOG: Api server open on port: (40)
+2021-03-06 23:50:03  (1)LOG: API Server started: 70.0ms
+2021-03-06 23:50:03  (1)LOG: Web Server started: 69.0ms
+2021-03-06 23:50:05  (3)DEBUG: @ConnectionThread-run()[107]: .html1
+2021-03-06 23:51:03  (4)STOP: Stopping Server...
+2021-03-06 23:51:03  (1)LOG: Saved Cache in file
+2021-03-06 23:51:03  (4)STOP: Server stopped; run time: @1m0s
+2021-03-06 23:51:03  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-06 23:51:05  (1)LOG: Cache store retrieved from file
+2021-03-06 23:51:05  (1)LOG: Started @60.0ms
+2021-03-06 23:51:05  (1)LOG: Web server open on port: (80)
+2021-03-06 23:51:05  (1)LOG: Api server open on port: (40)
+2021-03-06 23:51:05  (1)LOG: API Server started: 65.0ms
+2021-03-06 23:51:05  (1)LOG: Web Server started: 65.0ms
+2021-03-06 23:51:08  (3)DEBUG: @ConnectionThread-run()[107]: html
+2021-03-06 23:51:08  (3)DEBUG: @ConnectionThread-run()[107]: css
+2021-03-06 23:51:08  (3)DEBUG: @ConnectionThread-run()[107]: css
+2021-03-06 23:51:08  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:51:08  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:51:08  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:51:08  (3)DEBUG: @ConnectionThread-run()[107]: png
+2021-03-06 23:53:35  (3)DEBUG: @ConnectionThread-run()[107]: html
+2021-03-06 23:53:36  (3)DEBUG: @ConnectionThread-run()[107]: css
+2021-03-06 23:53:36  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:53:36  (3)DEBUG: @ConnectionThread-run()[107]: css
+2021-03-06 23:53:36  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:53:36  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:53:36  (3)DEBUG: @ConnectionThread-run()[107]: png
+2021-03-06 23:53:39  (3)DEBUG: @ConnectionThread-run()[107]: css
+2021-03-06 23:53:39  (3)DEBUG: @ConnectionThread-run()[107]: css
+2021-03-06 23:53:39  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:53:39  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:53:39  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:53:40  (3)DEBUG: @ConnectionThread-run()[107]: png
+2021-03-06 23:54:04  (3)DEBUG: @ConnectionThread-run()[107]: ico
+2021-03-06 23:54:12  (3)DEBUG: @ConnectionThread-run()[107]: html
+2021-03-06 23:54:12  (3)DEBUG: @ConnectionThread-run()[107]: css
+2021-03-06 23:54:12  (3)DEBUG: @ConnectionThread-run()[107]: css
+2021-03-06 23:54:12  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:54:12  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:54:12  (3)DEBUG: @ConnectionThread-run()[107]: js
+2021-03-06 23:54:12  (3)DEBUG: @ConnectionThread-run()[107]: png

@@ -1,23 +1,24 @@
-package net.speedstor.main;
+package net.speedstor.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.Clock;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.json.simple.JSONObject;
-
+import net.speedstor.control.Log;
+import net.speedstor.discussion.DiscussionHandler;
+import net.speedstor.main.Cache;
+import net.speedstor.main.TokenHandler;
 import net.speedstor.websocket.WebSocketHandler;
 
-public class Server implements Runnable{
+public class APIServer implements Runnable{
 	Log log;
+	Cache cache;
 	public boolean running = false;
 
 	ServerSocket serverSocket;
 	TokenHandler tokenHandler;
+	DiscussionHandler discussionHandler;
+	APIFunctions apiFunctions;
 	int port;
 	
 	WebSocketHandler websocketHandler;
@@ -25,42 +26,37 @@ public class Server implements Runnable{
 	Clock clock;
 	double startTime;
 	
-	public HashMap<String, DiscussionHandler> runningDiscussionBoards = new HashMap<String, DiscussionHandler>();
-	
-	public HashMap<String, Integer> clientConnections = new HashMap<String, Integer>();
-	
-	public Server(Log log, Clock clock, int port, double startTime, WebSocketHandler websocketHandler, TokenHandler tokenHandler) {
+	public APIServer(Log log, Clock clock, int port, double startTime, WebSocketHandler websocketHandler, TokenHandler tokenHandler, DiscussionHandler discussionHandler, Cache cache) {
 		this.log = log;
 		this.port = port;
 		this.clock = clock;
 		this.startTime = startTime;
 		this.tokenHandler = tokenHandler;
 		this.websocketHandler = websocketHandler;
-		running = true;
+		this.discussionHandler = discussionHandler;
+		this.cache = cache;
+		
+		apiFunctions = new APIFunctions(log, this, websocketHandler, tokenHandler, discussionHandler, clock, cache);
 	}
 	
 	public void run() {
 	    try {
 			serverSocket = new ServerSocket(port);
-			log.log("Open on port: ("+port+")");
 		} catch (IOException e1) {
-			log.error("port: "+port+" taken, try another one");
+			log.error("(api) port: "+port+" taken, try another one");
 			return;
-			//debug
-			//e1.printStackTrace();
 		}
-	    log.log("Server started: "+(clock.millis() - startTime)+"ms");
+		running = true;
+	    log.log("Api server open on port: ("+port+"); started: "+(clock.millis() - startTime)+"ms");
 
-	    
 		while(running) {
 			//Receive requests
 	        try {
 	        	Socket client = serverSocket.accept();
 	        	
 	        	//move to a new thread for dealing with request
-	        	Thread serverThread = new ServerThread(client, log, this, websocketHandler, clock, tokenHandler);
-	        	serverThread.start();
-	        	
+	        	Thread apiServerThread = new APIServerThread(client, log, this, websocketHandler, clock, tokenHandler, discussionHandler, apiFunctions, cache);
+	        	apiServerThread.start();
 	        }catch ( java.io.InterruptedIOException e ) {
 	        	//timeout socket
 	        	log.error("Server accept socket timed out");

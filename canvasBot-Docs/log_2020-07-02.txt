@@ -1,0 +1,26 @@
+
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2020-07-02 09:08:38  (1)LOG: Cache store retrieved from file
+2020-07-02 09:08:38  (1)LOG: Started @30.0ms
+2020-07-02 09:08:38  (1)LOG: Open on port: (40)
+2020-07-02 09:08:38  (1)LOG: Server started: 31.0ms
+2020-07-02 09:08:46  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14193,localport=40]; Path: GET /initDiscu HTTP/1.1
+2020-07-02 09:09:14  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14199,localport=40]; Path: GET / HTTP/1.1
+2020-07-02 09:09:15  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14200,localport=40]; Path: GET /favicon.ico HTTP/1.1
+2020-07-02 09:09:54  (4)STOP: Stopping Server...
+2020-07-02 09:09:54  (1)LOG: Saved Cache in file
+2020-07-02 09:09:54  (4)STOP: Server stopped; run time: @1m16s
+2020-07-02 09:09:54  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2020-07-02 09:09:58  (1)LOG: Cache store retrieved from file
+2020-07-02 09:09:58  (1)LOG: Started @27.0ms
+2020-07-02 09:09:58  (1)LOG: Open on port: (40)
+2020-07-02 09:09:58  (1)LOG: Server started: 30.0ms
+2020-07-02 09:10:08  (4)STOP: Stopping Server...
+2020-07-02 09:10:08  (1)LOG: Saved Cache in file
+2020-07-02 09:10:08  (4)STOP: Server stopped; run time: @0m10s
+2020-07-02 09:10:08  ------end------

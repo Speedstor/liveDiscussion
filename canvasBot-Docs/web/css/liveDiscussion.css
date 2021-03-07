@@ -1,0 +1,428 @@
+.initialPromptCard{
+    transition: 5ms linear;
+}
+
+.onoffswitch {
+  position: relative; width: 86px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+  display: none;
+}
+.onoffswitch-label {
+  display: block; overflow: hidden; cursor: pointer;
+  border: 2px solid #999999; border-radius: 18px;
+}
+.onoffswitch-inner {
+  display: block; width: 200%; margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+  display: block; float: left; width: 50%; height: 24px; padding: 0; line-height: 24px;
+  font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+  box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+  content: "Live";
+  padding-left: 10px;
+  background-color: #42CC5D; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+  content: "Norm";
+  padding-right: 10px;
+  background-color: #EEEEEE; color: #999999;
+  text-align: right;
+}
+.onoffswitch-switch {
+  display: block; width: 18px; margin: 3px;
+  background: #FFFFFF;
+  position: absolute; top: 0; bottom: 0;
+  right: 58px;
+  border: 2px solid #999999; border-radius: 18px;
+  transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+  right: 0px; 
+}
+
+.messageInput:focus{
+  border: none;
+}
+
+.messageButton{
+  transition: all ease-in-out 100ms;
+  outline: none !important;
+}
+
+.messageButton:active, .messageButton:hover{
+  background: transparent;
+  background-color: transparent !important;
+  border: transparent !important;
+  color: rgb(9, 194, 9) !important;
+  font-size: 19px;
+  margin-top: -2px;
+  margin-left: -1px;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.messageButton:focus{
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.textBox{
+  overflow: auto;
+}
+
+.textBox p{
+  height: 32px;
+  margin: 0px;
+}
+
+.dropdownCheckbox + label::after{
+}
+
+.dropdownCheckbox:checked + label::after{
+    
+}
+
+#initialPromptParagraph > *{
+  margin: 0px;
+}
+
+.messageBubble{
+  border-radius: 5px;
+  box-shadow: -2px 2px 4px rgba(128, 128, 128, 0.04), 1px -1px 20px rgba(128, 128, 128, 0.06) inset;
+  margin-right: 25px;
+  margin-left: 25px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.messageBubble-wrap:hover ~ .mF-infoTag{
+  display: inline-block;
+  transition:all 60ms ease-out 200ms;
+}
+
+.mF-infoTag:hover{
+  display: inline-block;
+  cursor: pointer;
+  background: rgb(219, 219, 219);
+}
+
+.mF-infoTag{
+  display: none;
+  transition:all 100ms ease-out 0ms;
+  background: white;
+  margin-bottom: 11px;
+  border: 1px solid;
+}
+
+.mF-infoTag-left{
+  padding: 10px 10px 10px 4px;
+
+}
+
+.mF-infoTag-right{
+  padding: 10px 4px 10px 10px;
+}
+
+.mF-infoTag-left::after{
+  content: "";
+  position: relative;
+  float: left;
+  bottom: -6px;
+  background: transparent;
+  left: -12px;
+  width: 0px;
+  height: 0px;
+  font-size: 0px;
+  border: 7px solid;
+  border-width: 7px 7px 7px 0px;
+  border-color: transparent black transparent transparent;
+}
+.mF-infoTag-right::after{
+  content: "";
+  position: relative;
+  float: right;
+  bottom: -6px;
+  background: transparent;
+  left: 12px;
+  width: 0px;
+  height: 0px;
+  font-size: 0px;
+  border: 7px solid;
+  border-width: 7px 0px 7px 7px;
+  border-color: transparent transparent transparent black;
+}
+
+.messageBubble-right{
+  background: #eff9ef;
+  border: 1px solid #3b822c;
+}
+
+.messageBubble-left{
+  background: rgb(250, 253, 254);
+  background: rgb(255, 255, 255);
+  border: 1px solid #c18c9a;
+}
+
+.messageBubble-right::after{
+  content: "";
+  position: relative;
+  z-index: 0;
+  bottom: -1px;
+  width: 10px;
+  float: right;
+  right: -10px;
+  height: 20px;
+  background: transparent;
+  background-attachment: fixed;
+  border-radius: 0px;
+  border: 10px solid;
+  border-color: transparent transparent #8fb288 transparent;
+}
+.messageBubble-left::after{
+  content: "";
+  position: relative;
+  z-index: 0;
+  bottom: -1px;
+  width: 10px;
+  float: left;
+  left: calc(-100% + 10px);
+  height: 20px;
+  background: transparent;
+  background-attachment: fixed;
+  border-radius: 0px;
+  border: 10px solid;
+  border-color: transparent transparent #e9b5c8  transparent;
+}
+
+.typing{
+  animation: typing step-end 2.5s infinite;
+}
+
+@keyframes typing {
+  0%, 50%, 100% {
+    border: grey 1px solid;
+  }
+  25%, 75% {
+    border: white 1px solid;
+  }
+}
+
+.messageButton:hover + .send-tooltip{
+  display: block;
+}
+
+.send-tooltip{
+  position: absolute;
+  bottom: 47px;
+  right: 6px;
+  padding-right: 10px;
+  border-right: 1px black solid;
+  display: none;
+  background: #cadff3c2;
+}
+
+#messageWrap{
+  background: url(../img/chatBackground.png);
+  /* opacity: 0.3; */
+  background-size: cover;
+  background-position: center;
+}
+
+.messageBubble p {
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+.participantItem{
+  background:  #ffffffb3;
+  width: 100%; 
+  height: 45px;
+  border-width: 0px 0px 0.5px 0px;
+  border-color: #e8e8e8;
+  border-style: solid;
+  border-radius: 4px;
+}
+.participantItem:hover{
+  background: rgb(255, 253, 241);
+}
+.participantItem:focus{
+  outline: 0px solid transparent;
+}
+.participantItem.active{
+  background: rgb(248, 245, 213);
+  outline: 0px solid transparent;
+}
+.itemCollapsible{
+  height: 0px;
+  transition: 150ms ease-in-out all;
+  width: 100%; 
+  background: rgb(242, 242, 242);
+  overflow: hidden;
+}
+.participantItem.active + .itemCollapsible {
+  height: 100px;
+  border-bottom: 1px solid rgb(164 164 164);
+}
+.participantOption{
+  width: 100%; padding: 8px 10px 8px 48px; height: 40px; display: inline-block;
+}
+
+
+/**
+  Thought Bubbles css
+*/
+.thoughtBubble{
+  background: rgb(241, 241, 241);
+  border-radius: 5px; 
+  margin-right: 25px;
+  margin-left: 25px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-end;
+
+  min-height: 40px;
+}
+
+.thoughtBubble-left{
+  background: rgb(241, 241, 241);
+}
+
+.bubbleForThought-left{
+  order:1;
+}
+.bubbleForThought-right{
+  order:3;
+}
+
+.bubbleForThought-left::after{    
+  content: " ";
+  position: relative;
+  z-index: 0;
+  bottom: -4px;
+  left: 3px;
+  margin-right: -19px;
+  width: 0px;
+  height: 0px;
+  font-size: 0px;
+  background: transparent;
+  background-attachment: fixed;
+  border-radius: 50px;
+  border: 4px solid;
+  border-color: rgb(224, 224, 224);
+}
+.bubbleForThought-left::before{
+  content: " ";
+  position: relative;
+  z-index: 0;
+  bottom: -14px;
+  left: 6px;
+  margin-right: -19px;
+  width: 0px;
+  height: 0px;
+  font-size: 0px;
+  background: transparent;
+  background-attachment: fixed;
+  border-radius: 50px;
+  border: 6px solid;
+  border-color: rgb(224, 224, 224);
+}
+
+.bubbleForThought-right::after{    
+  content: " ";
+  position: relative;
+  z-index: 0;
+  bottom: -4px;
+  left: 2px;
+  margin-right: -19px;
+  width: 0px;
+  height: 0px;
+  font-size: 0px;
+  background: transparent;
+  background-attachment: fixed;
+  border-radius: 50px;
+  border: 4px solid;
+  border-color: rgb(224, 224, 224);
+}
+.bubbleForThought-right::before{
+  content: " ";
+  position: relative;
+  z-index: 0;
+  bottom: -14px;
+  left: -20px;
+  margin-right: -19px;
+  width: 0px;
+  height: 0px;
+  font-size: 0px;
+  background: transparent;
+  background-attachment: fixed;
+  border-radius: 50px;
+  border: 6px solid;
+  border-color: rgb(224, 224, 224);
+}
+
+.thoughtBubble p {
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+/* endregion */
+
+.liveDiscussionOption{
+  height: 42px; 
+  padding-top: 8px; 
+  padding-bottom: 8px;
+}
+
+.liveDiscussionOption span{
+  float:right; 
+  color:rgb(19, 117, 19);
+}
+
+.courseList{
+  margin-bottom: 16px;
+}
+
+
+/*==================================================
+ * Effect 6
+ * ===============================================*/
+ .effect6
+ {
+     position:relative;
+     -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+        -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+             box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+ }
+ .effect6:before, .effect6:after
+ {
+     content:"";
+     position:absolute;
+     z-index:-1;
+     -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+     -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+     box-shadow:0 0 20px rgba(0,0,0,0.8);
+     top:50%;
+     bottom:0;
+     left:10px;
+     right:10px;
+     -moz-border-radius:100px / 10px;
+     border-radius:100px / 10px;
+ }
+ .effect6:after
+ {
+     right:10px;
+     left:auto;
+     -webkit-transform:skew(8deg) rotate(3deg);
+        -moz-transform:skew(8deg) rotate(3deg);
+         -ms-transform:skew(8deg) rotate(3deg);
+          -o-transform:skew(8deg) rotate(3deg);
+             transform:skew(8deg) rotate(3deg);
+ }

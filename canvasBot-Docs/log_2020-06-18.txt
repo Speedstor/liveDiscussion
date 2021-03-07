@@ -1,0 +1,29 @@
+
+2020-06-18 07:54:48  (1)LOG: Cache store retrieved from file
+2020-06-18 07:54:48  (1)LOG: Started @113.0ms
+2020-06-18 07:54:48  (1)LOG: Open on port: (40)
+2020-06-18 07:54:48  (1)LOG: Server started: 116.0ms
+2020-06-18 07:54:54  (4)STOP: Stopping Server...
+2020-06-18 07:54:54  (1)LOG: Saved Cache in file
+2020-06-18 07:54:54  (4)STOP: Server stopped; run time: @0m6s
+2020-06-18 07:54:54  ------end------
+2020-06-18 07:56:04  (1)LOG: Cache store retrieved from file
+2020-06-18 07:56:04  (1)LOG: Started @102.0ms
+2020-06-18 07:56:04  (1)LOG: Open on port: (40)
+2020-06-18 07:56:04  (1)LOG: Server started: 105.0ms
+2020-06-18 07:56:12  (0)WARN: @Cmd-run(): ::no command found  [sdf]
+2020-06-18 07:58:38  (4)STOP: Stopping Server...
+2020-06-18 07:58:38  (1)LOG: Saved Cache in file
+2020-06-18 07:58:38  (4)STOP: Server stopped; run time: @2m34s
+2020-06-18 07:58:38  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2020-06-18 07:58:40  (1)LOG: Cache store retrieved from file
+2020-06-18 07:58:40  (1)LOG: Started @27.0ms
+2020-06-18 07:58:40  (1)LOG: Open on port: (40)
+2020-06-18 07:58:40  (1)LOG: Server started: 29.0ms
+2020-06-18 07:58:54  (4)STOP: Stopping Server...
+2020-06-18 07:58:54  (1)LOG: Saved Cache in file
+2020-06-18 07:58:54  (4)STOP: Server stopped; run time: @0m14s
+2020-06-18 07:58:54  ------end------
