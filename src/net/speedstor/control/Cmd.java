@@ -80,7 +80,7 @@ public class Cmd implements Runnable{
 						break;
 					case "listDiscussions":
 						String[] discussionList = discussionHandler.listDiscussionBoards();
-						log.list("/--- Size: "+discussionHandler.canvas_getSize()+" ------------------------------------------------------------------------------");
+						log.list("/--- Size: "+discussionHandler.getSize()+" ------------------------------------------------------------------------------");
 						for(int i = 0; i < discussionList.length; i++) {
 							log.list("  "+discussionList[i]);
 						}

@@ -8,6 +8,7 @@ import org.json.simple.parser.JSONParser;
 import net.speedstor.control.Log;
 import net.speedstor.control.Settings;
 import net.speedstor.discussion.CanvasDiscussion;
+import net.speedstor.discussion.Discussion;
 import net.speedstor.discussion.DiscussionHandler;
 import net.speedstor.main.TokenHandler;
 import net.speedstor.server.APIServer;
@@ -73,8 +74,8 @@ public class WebSocket{
 	}
 	
 	void sendSyncJson(String excludeSocket, String JsonString) {
-		CanvasDiscussion canvasDiscussion = discussionHandler.canvas_get(discussionId);
-		canvasDiscussion.sendSync(excludeSocket, JsonString);
+		Discussion discussion = discussionHandler.get(discussionId);
+		discussion.sendSync(excludeSocket, JsonString);
 	}
 
 	public void sendUnmaskThread(String message) {
@@ -93,7 +94,7 @@ public class WebSocket{
 		inStream = null;
 		outStream = null;
 		websocketHandler.remove(socketId);
-		discussionHandler.canvas_get(discussionId).removeParticipant(socketId);
+		discussionHandler.get(discussionId).removeParticipant(socketId);
 		return 1;
 	}
 	

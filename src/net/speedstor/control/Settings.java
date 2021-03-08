@@ -7,6 +7,10 @@ public class Settings {
 	public static String CACHE_FILE_NAME = "cache.txt";
 	public static String TOKENDB_FILE_NAME = "tokensDB.txt";
 	
+	final public static int DISCUSSION_ID_SIMPLE_LENGTH = 6;
+	final public static int DISCUSSION_ID_COMPLEX_LENGTH = 10;
+	final public static int DISCUSSION_ID_CANVAS_LENGTH = 8;
+	
 	//public static String CANVAS_DOMAIN = "https://fairmontschools.beta.instructure.com";
 	public static String CANVAS_DOMAIN = "https://fairmontschools.instructure.com";
 	public static String API_PATH = "/api/v1";

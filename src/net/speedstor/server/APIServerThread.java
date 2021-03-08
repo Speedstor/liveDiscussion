@@ -127,10 +127,8 @@ public class APIServerThread extends Thread{
 		        	returnClientRequest = apiFunctions.sendReply(urlParameter, inFromClient);
 		        	break;
 				case "/favicon.ico":
-		        	//doesn't work yet
 					returnByte = apiFunctions.getFavicon();
 					contentType = "image/x-icon";
-					//contentType = "text/plain";
 					break;
 		        case "":
 		        case "/":
@@ -225,7 +223,7 @@ public class APIServerThread extends Thread{
 			WebSocket websocket = websocketHandler.get(parameters.get("socketId"));
 			websocket.initSetup(client, inFromClient, outToClient);  
 			
-			discussionHandler.canvas_get(websocket.getDiscussionId()).addParticipant(parameters.get("socketId"));
+			discussionHandler.get(websocket.getDiscussionId()).addParticipant(parameters.get("socketId"));
 		} catch (IOException | NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			log.error("writing websocket header error");

@@ -1,0 +1,29 @@
+
+2021-03-08 01:07:01  (4)STOP: Stopping Server...
+2021-03-08 01:07:01  (1)LOG: Saved Cache in file
+2021-03-08 01:07:01  (4)STOP: Server stopped; run time: @1296m0s
+2021-03-08 01:07:01  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-08 01:07:11  (1)LOG: Cache store retrieved from file
+2021-03-08 01:07:11  (1)LOG: Started @32.0ms
+2021-03-08 01:07:11  (1)LOG: Api server open on port: (40); started: 35.0ms
+2021-03-08 01:07:11  (1)LOG: Web server open on port: (80); started: 35.0ms
+2021-03-08 01:07:22  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=2378,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-08 01:07:24  (1)LOG: New User: directTokenLogin
+2021-03-08 01:07:24  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=2385,localport=40]; Path: GET /checkLogin?socketId=MiRjiPkzMPv4pex&accountId=KIftHatXlgNKshu HTTP/1.1
+2021-03-08 01:07:24  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=2387,localport=40]; Path: GET /listDiscussions?socketId=MiRjiPkzMPv4pex HTTP/1.1
+2021-03-08 01:07:33  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=2398,localport=40]; Path: GET /checkLogin?socketId=MiRjiPkzMPv4pex&accountId=KIftHatXlgNKshu HTTP/1.1
+2021-03-08 01:07:34  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=2402,localport=40]; Path: GET /initDiscussion?socketId=MiRjiPkzMPv4pex&id=232v4931 HTTP/1.1
+2021-03-08 01:07:34  (1)LOG: New DBoard: net.speedstor.discussion.CanvasDiscussion@5dbf16d1; Total Boards: 1; id: Canvas-232v4931
+2021-03-08 01:07:34  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=2403,localport=40]; Path: GET /view?socketId=MiRjiPkzMPv4pex&id=232v4931 HTTP/1.1
+2021-03-08 01:07:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=2405,localport=40]; Path: GET /socket?socketId=MiRjiPkzMPv4pex HTTP/1.1
+2021-03-08 01:07:35  (1)LOG: DiscussionBoardSize: 1; url=https://fairmontschools.instructure.com/api/v1/courses/232/discussion_topics/4931
+2021-03-08 01:07:35  (1)LOG: Web Socket Established
+2021-03-08 01:08:19  (--)LIST: /--- Size: 1 ------------------------------------------------------------------------------
+2021-03-08 01:08:19  (--)LIST:   Board: Canvas-232v4931;  Size: 1;  Sockets: [MiRjiPkzMPv4pex];  
+2021-03-08 01:08:53  (4)STOP: Stopping Server...
+2021-03-08 01:08:53  (1)LOG: Saved Cache in file
+2021-03-08 01:08:53  (4)STOP: Server stopped; run time: @1m42s
+2021-03-08 01:08:53  ------end------

@@ -16,6 +16,7 @@ import net.speedstor.control.Credentials;
 import net.speedstor.control.Log;
 import net.speedstor.control.Settings;
 import net.speedstor.discussion.CanvasDiscussion;
+import net.speedstor.discussion.Discussion;
 import net.speedstor.discussion.DiscussionHandler;
 import net.speedstor.main.Cache;
 import net.speedstor.main.ThreadScripts;
@@ -239,7 +240,7 @@ public class APIFunctions {
 		discussionUrl += "/view";
 		
 		String reconstructedId = courseId+"v"+discussionId;
-		if(discussionHandler.canvas_containKey(reconstructedId)) {
+		if(discussionHandler.containKey(reconstructedId)) {
 			//discussionHandler.canvas_get(reconstructedId).addParticipant(socketId);
 		}else {
 			CanvasDiscussion canvasDiscussion = new CanvasDiscussion(log, discussionUrl, clock, tokenHandler, serverToken, websocketHandler, cache);
@@ -255,9 +256,9 @@ public class APIFunctions {
 			
 			Thread discussionHandlerThread = new Thread(canvasDiscussion);
 			discussionHandlerThread.start();
-			discussionHandler.canvas_put(reconstructedId, canvasDiscussion);
+			discussionHandler.put(reconstructedId, canvasDiscussion);
 			
-			log.log("New DBoard: " + canvasDiscussion.toString() + "; Total Boards: " + discussionHandler.canvas_getSize() + "; id: " + reconstructedId);
+			log.log("New DBoard: " + canvasDiscussion.toString() + "; Total Boards: " + discussionHandler.getSize() + "; id: Canvas-" + reconstructedId);
 		}
 		
 		WebSocket newWebsocket = new WebSocket(log, clock, reconstructedId, apiServer, tokenHandler, socketId, discussionHandler, websocketHandler, tokenHandler.tokenDB_get(serverToken)[2]);
@@ -271,15 +272,12 @@ public class APIFunctions {
 		HashMap<String, String> parameters = parseUrlParameter(urlParameter);
 		if(parameters == null)  return "0-parameter error";
 
-		if(!parameters.containsKey("socketId"))  return "0-must need token";
-		if(!parameters.containsKey("id")) return "0-must need discussionUrl or id";
-		
-		//WARN: thrown legacy support for getting json from url, must from id
-		//requestUrl = Settings.API_URL+parameters.get("url").substring(parameters.get("url").indexOf("/courses/"))+"/view";
+		if(!parameters.containsKey("socketId")) return "0-must need token";
+		if(!parameters.containsKey("id")) return "0-must need discussion id";
 		
 		if(tokenHandler.socketList_containKey(parameters.get("socketId"))) {
-			//had already logged in
-			CanvasDiscussion focusedDiscussionHandler = discussionHandler.canvas_get(parameters.get("id"));
+			//verified logged in
+			Discussion focusedDiscussionHandler = discussionHandler.get(parameters.get("id"));
 			String responseJson = null;
 			while(responseJson == null) {
 					responseJson = focusedDiscussionHandler.getDiscussionJson();
@@ -322,8 +320,13 @@ public class APIFunctions {
 			return "0-server connection error";
 		}
 		
-		CanvasDiscussion canvasDiscussion = discussionHandler.canvas_get(parameters.get("discussionId"));		
-		return canvasDiscussion.sendNewMessage(parameters.get("socketId"), message);
+		if(parameters.get("key").length() == Settings.DISCUSSION_ID_CANVAS_LENGTH) {
+			CanvasDiscussion canvasDiscussion = (CanvasDiscussion) discussionHandler.get(parameters.get("discussionId"));		
+			return canvasDiscussion.sendNewMessage(parameters.get("socketId"), message);
+		}else {
+			Discussion discussion = discussionHandler.get(parameters.get("discussionId"));		
+			return discussion.sendNewMessage(parameters.get("socketId"), message);
+		}
 	}
 	
 	public String sendReply(String urlParameter, BufferedReader inFromClient) {
@@ -358,8 +361,14 @@ public class APIFunctions {
 			return "0-server connection error";
 		}
 		
-		CanvasDiscussion canvasDiscussion = discussionHandler.canvas_get(parameters.get("discussionId"));		
-		return canvasDiscussion.sendNewReply(parameters.get("socketId"), replyTo, message);
+
+		if(parameters.get("key").length() == Settings.DISCUSSION_ID_CANVAS_LENGTH) {
+			CanvasDiscussion canvasDiscussion = (CanvasDiscussion) discussionHandler.get(parameters.get("discussionId"));		
+			return canvasDiscussion.sendNewReply(parameters.get("socketId"), replyTo, message);
+		}else {
+			Discussion discussion = discussionHandler.get(parameters.get("discussionId"));		
+			return discussion.sendNewReply(parameters.get("socketId"), replyTo, message);
+		}
 	}
 	
 	public String updateImage(String urlParameter) {
@@ -485,7 +494,7 @@ public class APIFunctions {
 			int stringCutIndex = discussionUrl.indexOf("/dicussion");
 			String discussionId = discussionUrl.substring(discussionUrl.indexOf("/courses/") + 9, stringCutIndex)+"v"+discussionUrl.substring(stringCutIndex+18);
 			
-			if(discussionHandler.canvas_containKey(discussionUrl)) {
+			if(discussionHandler.containKey(discussionUrl)) {
 				//server.runningDiscussionBoards.get(discussionUrl).addParticipant(token);
 			}else {
 				CanvasDiscussion canvasDiscussion = new CanvasDiscussion(log, discussionUrl, clock, tokenHandler, token, websocketHandler, cache);
@@ -504,9 +513,9 @@ public class APIFunctions {
 				Thread discussionHandlerThread = new Thread(canvasDiscussion);
 				discussionHandlerThread.start();
 				
-				discussionHandler.canvas_put(discussionId, canvasDiscussion);
+				discussionHandler.put(discussionId, canvasDiscussion);
 				
-				log.log("New DBoard: " + discussionHandler.toString() + "; Total Boards: " + discussionHandler.canvas_getSize() + "; id: " + discussionId);
+				log.log("New DBoard: " + discussionHandler.toString() + "; Total Boards: " + discussionHandler.getSize() + "; id: " + discussionId);
 			}
 			
 			

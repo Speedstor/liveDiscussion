@@ -158,3 +158,13 @@
 2021-03-07 05:08:45  (1)LOG: Web Socket Established
 2021-03-07 07:39:32  (--)LIST: /--- Size: 1 ------------------------------------------------------------------------------
 2021-03-07 07:39:32  (--)LIST:   Board: Canvas-232v4931;  Size: 0;  Sockets: [];  
+2021-03-07 20:43:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14434,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-07 20:43:49  (1)LOG: New User: directTokenLogin
+2021-03-07 20:43:49  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14439,localport=40]; Path: GET /checkLogin?socketId=t4oOUQ3eiEJVZla&accountId=ZxG8JjOtEkskXJv HTTP/1.1
+2021-03-07 20:43:49  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14442,localport=40]; Path: GET /listDiscussions?socketId=t4oOUQ3eiEJVZla HTTP/1.1
+2021-03-07 20:43:50  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14453,localport=40]; Path: GET /checkLogin?socketId=t4oOUQ3eiEJVZla&accountId=ZxG8JjOtEkskXJv HTTP/1.1
+2021-03-07 20:43:51  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14457,localport=40]; Path: GET /initDiscussion?socketId=t4oOUQ3eiEJVZla&id=232v4931 HTTP/1.1
+2021-03-07 20:43:51  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14458,localport=40]; Path: GET /view?socketId=t4oOUQ3eiEJVZla&id=232v4931 HTTP/1.1
+2021-03-07 20:43:51  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=14460,localport=40]; Path: GET /socket?socketId=t4oOUQ3eiEJVZla HTTP/1.1
+2021-03-07 20:43:51  (1)LOG: DiscussionBoardSize: 1; url=https://fairmontschools.instructure.com/api/v1/courses/232/discussion_topics/4931
+2021-03-07 20:43:51  (1)LOG: Web Socket Established
