@@ -17,19 +17,29 @@ if(urlParams.has("id")){
     window.location.href = currentPageUrl+pageExt+"/choose.html";
 }
 var userId;
+var ifCanvas;
 
 //init
 window.onload = function() {
-    fetch(serverUrl+"/initDiscussion?socketId="+window.socketId+"&id="+canvasId).then(responseText => responseText.text()).then(response => {
-        if(response.substring(0, 4) != "true"){
-            //TODO::  display error link and link to choose.html
-            window.location.href = currentPageUrl+pageExt+"/choose.html";
+    if(canvasId.indexOf("v") > 0) ifCanvas = true;
+    else ifCanvas = false;
+
+    fetch(serverUrl+"/initDiscussion?socketId="+window.socketId+"&id="+canvasId).then(responseText => responseText.json()).then(response => {
+        if("success" in response){
+            userId = response.userId;
+                        
+            if(ifCanvas || response.hasParticipant){
+                fetch(serverUrl+"/view?socketId="+window.socketId+"&id="+canvasId).then(response => response.json()).then((json) =>{
+                    this.discussionJson = json;
+                    this.initApp();
+                })
+            }else{
+                $('#setNameModal').modal({backdrop: "static"})
+                $('#setNameModal').modal("show")
+            }
         }else{
-            userId = response.substring(5, response.length);
-            fetch(serverUrl+"/view?socketId="+window.socketId+"&id="+canvasId).then(response => response.json()).then((json) =>{
-                this.discussionJson = json;
-                this.initApp();
-            })
+            if(ifCanvas) window.location.href = currentPageUrl+pageExt;
+            else window.location.href = currentPageUrl+pageExt+"choose.html";
         }
     })
 }
@@ -56,7 +66,10 @@ function initApp(){
     let canvasDiscussionId = ids[1] 
     var canvasUrlLoc = CANVAS_INSTALL_URL+"/courses/"+courseId+"/discussion_topics/"+canvasDiscussionId;
 
-    document.getElementById("discussionTopic").innerHTML = discussionJson['title']+"&nbsp;&nbsp;&nbsp;&nbsp;<button onclick='window.open(\""+canvasUrlLoc+"\");' class='btn btn-outline-secondary btn-sm'>In Canvas</button>"
+    if(!ifCanvas) document.getElementById("shareUrl").value = currentPageUrl+pageExt+"/join.html?id="+canvasId;
+
+    document.getElementById("discussionTopic").innerHTML = "<input type='text' id='topicInput' class='hiddenInput' onfocusout='changeTitle();' oninput='this.size = this.value.length - 2;' size='"+(discussionJson['title'].length-2)+"' value='"+discussionJson['title']+"'>&nbsp;&nbsp;&nbsp;&nbsp;"
+                                                                + (ifCanvas ? "<button onclick='window.open(\""+canvasUrlLoc+"\");' class='btn btn-outline-secondary btn-sm'>In Canvas</button>" : "<button type='button' class='btn btn-outline-secondary btn-sm' data-toggle='modal' data-target='#inviteModal'>Invite</button>");
     document.getElementById("initialPromptParagraph").innerHTML = discussionJson['topic']
 
     window.messageFeed = new MessageFeed("messageFeed", {
@@ -76,25 +89,25 @@ function initApp(){
 
     let firstParticipant = true
     Object.values(discussionJson.participants).map(user => {
+        if(user.id == userId) user.display_name = user.display_name+"&nbsp; <span style='color: grey'>(You)</span>";
         addParticipant(user.id, user.display_name, user.avatar_image_url);
         if(firstParticipant){
             participantItem_onclick(user.id)
             firstParticipant = false;
         }
     })
+    
     Object.values(discussionJson.online).map(online_id => {
         setParticipantOnline(online_id);
     })
     
-    setParticipantOnline(userId);
-
     Object.values(discussionJson.view).map(entry => {
         var entryUserId = entry.user_id;
         if(entryUserId){
             var orderValue = getOrderValueUTC(entry.updated_at);
             
             var isSelf = entryUserId+"" == userId
-
+            
             var userName = isSelf ? "You" : discussionJson.participants[entryUserId].display_name;
             var align = isSelf ? "right" : "left";
             window.messageFeed.pushMessage({
@@ -106,7 +119,7 @@ function initApp(){
                 message: entry.message,
                 order: orderValue
             });
-
+            
             document.getElementById("messageFeed-"+entry.id+"-replyButton").addEventListener("click", (event) => {
                 setReply(entry.id);
             })
@@ -116,11 +129,11 @@ function initApp(){
                 entry.replies.map(replyEntry => {
                     let replyUserId = replyEntry.user_id+"";
                     replyIsSelf = replyUserId == userId;
-        
+                    
                     var replyUserName = replyIsSelf ? "You" : discussionJson.participants[replyUserId].display_name;
-
+                    
                     var replyOrderValue = getOrderValueUTC(replyEntry.updated_at);
-
+                    
                     var replyObject = {
                         replyToId: replyEntry.parent_id,
                         id: replyEntry.id,
@@ -129,7 +142,7 @@ function initApp(){
                         message: replyEntry.message,
                         updateParentOrder: replyOrderValue
                     }
-
+                    
                     if(replyIsSelf) replyObject['background'] = "#b7dfb7"
                     
                     window.messageFeed.pushReply(replyObject);
@@ -137,7 +150,7 @@ function initApp(){
             }
         }
     })
-
+    
     window.messageFeed.reorderMessage();
     try{
         document.getElementById("messageFeed").scrollTo(0, document.getElementById("messageFeed").scrollHeight);
@@ -154,11 +167,30 @@ function initApp(){
         keepAlive: true,
         onMessage: socket_onMessage,
     });
-
+    
     var applyDrag = document.getElementsByClassName("draggable");
     for(var i = 0; i < applyDrag.length; i++){
         dragElement(applyDrag[i]);
     }
+
+    setParticipantOnline(userId);
+}
+
+function setName(){
+    var userName = document.getElementById("userName").value;
+    if(userName == "") userName = "Guest";
+
+    fetch(serverUrl+"/join?socketId="+window.socketId+"&userName="+userName).then(response => response.json()).then((responseJson) => {
+        console.log(responseJson);
+        if("error" in responseJson){
+            return;
+        }
+        fetch(serverUrl+"/view?socketId="+window.socketId+"&id="+canvasId).then(response => response.json()).then((discussJson) =>{
+            this.discussionJson = discussJson;
+            this.initApp();
+            $("#setNameModal").modal('hide');
+        })
+    })
 }
 
 function onGoogleSignIn(googleUser){
@@ -201,7 +233,6 @@ const textBox_onSend = () => {
         window.textBox.editor.style.width = "calc(100% - 190px)";
         window.replyIndicator.parentElement.removeChild(window.replyIndicator);
         window.replyIndicator = null;
-        window.messageFeed.releaseBottom(window.replyingTo);
         window.messageFeed.reorderMessage();
         window.replyingTo = null;
     }else{
@@ -236,6 +267,21 @@ const textBox_onSend = () => {
     window.textBox.emptyTextbox();
     window.textBox.focus();
     //onChange();
+}
+
+//TODO:!!!!!!!!!!!!!!
+function changeTopic(){
+    var newDiscussionTopic = document.getElementById("initialPromptParagraph").innerHTML;
+    fetch(serverUrl+"/changeDiscussionTopic?discussionId="+canvasId+"&accountId="+accountId+"&newDiscussionTopic="+newDiscussionTopic).then(response => response.json()).then(responseJson => {
+        console.log(responseJson);
+    })
+}
+
+function changeTitle(){
+    var newDiscussionTitle = document.getElementById("topicInput").value;
+    fetch(serverUrl+"/changeDiscussionTitle?discussionId="+canvasId+"&accountId="+accountId+"&newDiscussionTitle="+newDiscussionTitle).then(response => response.json()).then(responseJson => {
+        console.log(responseJson);
+    })
 }
 
 var blockUsers = [];
@@ -393,6 +439,13 @@ const socket_onMessage = (jsonObject) => {
         }
     }
 
+    if("newParticipant" in jsonObject){
+        discussionJson.participants[jsonObject.newParticipant.id] = jsonObject.newParticipant;
+        var user = jsonObject.newParticipant;
+        addParticipant(user.id, user.display_name, user.avatar_image_url);
+        setParticipantOnline(user.id);
+    }
+
     if("resetsync" in jsonObject){
         let senderId = jsonObject.resetsync.senderId;
         let indexOf = blockUsers.indexOf(senderId);
@@ -407,6 +460,16 @@ const socket_onMessage = (jsonObject) => {
         let url = imageObject.url;
 
         replaceParticipantImage(user_id, url);
+    }
+
+    
+    if("newTitle" in jsonObject){
+        document.getElementById("topicInput").value = jsonObject.newTitle;
+        document.getElementById("topicInput").onfocusout();
+    }
+
+    if("newTopic" in jsonObject){
+        document.getElementById("initialPromptParagraph").innerHTML = jsonObject.newTopic;
     }
 }
 
@@ -754,6 +817,8 @@ function addParticipant(id, name, imageUrl){
     skipOption.onclick = function(){
         let findIndexSpan = document.getElementById("participantCollapse-"+id+"-findIndex")
         let spanText = window.messageFeed.jumpToSenderNext(id)
+        if(spanText == false) spanText = "0/0";
+
         console.log(spanText);
         findIndexSpan.innerHTML = spanText;
         setTimeout(() => {
@@ -840,8 +905,6 @@ function setCookie(name,value,days) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
   }
  
-
-
 
 
 /**

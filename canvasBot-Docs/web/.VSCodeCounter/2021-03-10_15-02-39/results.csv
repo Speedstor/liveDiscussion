@@ -1,0 +1,16 @@
+"filename", "language", "HTML", "JavaScript", "CSS", "comment", "blank", "total"
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\choose.html", "HTML", 44, 0, 0, 0, 9, 53
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\css\liveDiscussion.css", "CSS", 0, 0, 390, 8, 44, 442
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\css\spz.css", "CSS", 0, 0, 17, 0, 7, 24
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\css\textBox.css", "CSS", 0, 0, 110, 1, 26, 137
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\discussion.html", "HTML", 158, 0, 0, 2, 14, 174
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\index.html", "HTML", 117, 0, 0, 8, 15, 140
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\join.html", "HTML", 42, 0, 0, 0, 5, 47
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\checkLogin.js", "JavaScript", 0, 66, 0, 1, 8, 75
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\choose.js", "JavaScript", 0, 87, 0, 1, 15, 103
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\discussion.js", "JavaScript", 0, 796, 0, 46, 133, 975
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\login.js", "JavaScript", 0, 136, 0, 1, 19, 156
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\messageFeed.js", "JavaScript", 0, 334, 0, 24, 65, 423
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\s_websocket.js", "JavaScript", 0, 36, 0, 7, 13, 56
+"c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\textBox.js", "JavaScript", 0, 651, 0, 72, 104, 827
+"Total", "-", 361, 2106, 517, 171, 477, 3632

@@ -10,13 +10,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import net.speedstor.control.Log;
+import net.speedstor.control.Settings;
 import net.speedstor.main.Cache;
 import net.speedstor.main.TokenHandler;
 import net.speedstor.websocket.WebSocketHandler;
 
 public class Discussion {
 	Log log;
-	String url;
 	Clock clock;
 	TokenHandler tokenHandler;
 	WebSocketHandler websocketHandler;
@@ -28,17 +28,18 @@ public class Discussion {
 
     JSONParser parser = new JSONParser();
 		
-	public Discussion(Log log, String url, Clock clock, TokenHandler tokenHandler, WebSocketHandler websocketHandler, Cache cache) {
+	public Discussion(Log log, Clock clock, TokenHandler tokenHandler, WebSocketHandler websocketHandler, Cache cache) {
 		this.log = log;
-		this.url = url.replace("/view", "");
 		this.clock = clock;
 		this.tokenHandler = tokenHandler;
 		this.websocketHandler = websocketHandler;
 		this.cache = cache;
 		
-		discussionJson.put("topic", "");
-		discussionJson.put("title", "");
+		discussionJson.put("topic", "The thing you want the discussion to evolve around.");
+		discussionJson.put("title", "Untitled Discussion Room");
 		discussionJson.put("online", new JSONArray());
+		discussionJson.put("participants", new JSONObject());
+		discussionJson.put("view", new JSONObject());
 		
 		initialized = true;
 	}
@@ -145,8 +146,23 @@ public class Discussion {
 		return entryJson.toJSONString();
 	}
 	
+	public int addParticipant(String userId, String userName) {
+		log.debug("wroking till now");
+		JSONObject participantObject = new JSONObject();
+		participantObject.put("avatar_image_url", Settings.DEFAULT_USER_IMAGE_PATH);
+		participantObject.put("course_id", "null");
+		participantObject.put("display_name", userName);
+		participantObject.put("html_url", "null");
+		participantObject.put("id", userId);
+		participantObject.put("is_student", false);
+		participantObject.put("pronouns", null);
 		
-	public int addParticipant(String socketId) {
+		((JSONObject) discussionJson.get("participants")).put(userId, participantObject);
+		sendToAll("{\"newParticipant\": "+participantObject.toJSONString()+"}");
+		return 1;
+	}
+	
+	public int setOnline(String socketId) {
 		participantList.add(socketId);
 		String userId = tokenHandler.tokenDB_get(tokenHandler.socketList_get(socketId))[2];
 		JSONArray online = (JSONArray) discussionJson.get("online");
@@ -154,12 +170,12 @@ public class Discussion {
 			((JSONArray) discussionJson.get("online")).add(userId);
 			sendToAllExclude(socketId, "{\"online\": {\"user_id\": \""+userId+"\"}}");
 		}
-		log.log("DiscussionBoardSize: "+participantList.size() + "; url="+url);
+		log.log("DiscussionBoardSize: "+participantList.size() + ";");
 		//websocketHandler.get(token).sendUnmask(discussionJson.toJSONString());;
 		return 1;
 	}
 	
-	public boolean removeParticipant(String socketId) {
+	public boolean setOffline(String socketId) {
 		if(participantList.contains(socketId)) {
 			while(participantList.remove(socketId));
 			
@@ -182,6 +198,22 @@ public class Discussion {
 			return false;
 		}
 	}
+	public int changeParticipantName(String userId, String newName) {
+		if(!hasParticipant(userId)) return -1;
+		((JSONObject) ((JSONObject) discussionJson.get("participants")).get(userId)).put("display_name", newName);
+		sendToAll("{\"newParticipantName\": {\"user_id\": \""+userId+"\", \"display_name\": \""+newName+"\"}}");
+		return 1;
+	}
+	
+	public int removeParticipant(String userId) {
+		((JSONObject) discussionJson.get("participants")).remove(userId);
+		sendToAll("{\"removeParticipant\": \""+userId+"\"}");
+		return 1;
+	}
+	
+	public boolean hasParticipant(String userId) {
+		return ((JSONObject) discussionJson.get("participants")).containsKey(userId);
+	}
 	
 	public int getPariticipantSize() {
 		return participantList.size();
@@ -193,10 +225,12 @@ public class Discussion {
 	
 	public void setTopic(String topic) {
 		discussionJson.put("topic", topic);
+		sendToAll("{\"newTopic\": \""+topic+"\"}");
 	}
 	
 	public void setTitle(String title) {
 		discussionJson.put("title", title);
+		sendToAll("{\"newTitle\": \""+title+"\"}");
 	}
 	
 	public void updateProfileImage(String participantId, String imageUrl) {
@@ -204,11 +238,7 @@ public class Discussion {
 			((JSONObject) ((JSONObject) discussionJson.get("participants")).get(participantId)).put("avatar_image_url", imageUrl);
 		}
 	}
-	
-	public String getUrl() {
-		return url;
-	}
-	
+		
 	public String getName() {
 		return getTitle();
 	}

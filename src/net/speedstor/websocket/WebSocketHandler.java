@@ -11,10 +11,10 @@ public class WebSocketHandler {
 	Log log;
 	TokenHandler tokenHandler;
 	private HashMap<String, WebSocket> websockets = new HashMap<String, WebSocket>();
-	public HashMap<String, ArrayList<String>> userConnections = new HashMap<String, ArrayList<String>>(); //userId, num
+	private HashMap<String, ArrayList<String>> userConnections = new HashMap<String, ArrayList<String>>(); 
 	
-	//client connections to check how many websockets each user has [client.getInetAddress()]
 	public HashMap<String, Integer> clientConnections = new HashMap<String, Integer>();
+	//client connections to check how many websockets each user has [client.getInetAddress()]
 	
 	public WebSocketHandler(Log log, TokenHandler tokenHandler) {
 		this.log = log;

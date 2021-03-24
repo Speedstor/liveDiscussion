@@ -54,10 +54,15 @@ public class WebSocket{
 		this.socketId = socketId;
 		this.userId = userId;
 		
-		String[] discussionIds = discussionId.split("v");
-		if(discussionIds.length >= 2) {		
-			this.discussionId = discussionIds[0] + "v" + discussionIds[1];
-			this.discussionUrl = Settings.API_URL+"/courses/"+discussionIds[0]+"/discussion_topics/"+discussionIds[1];
+		if(discussionId.contains("v")) {			
+			String[] discussionIds = discussionId.split("v");
+			if(discussionIds.length >= 2) {		
+				this.discussionId = discussionIds[0] + "v" + discussionIds[1];
+				this.discussionUrl = Settings.API_URL+"/courses/"+discussionIds[0]+"/discussion_topics/"+discussionIds[1];
+			}
+		}else {
+			this.discussionId = discussionId;
+			this.discussionUrl = Settings.WEB_ADDRESS_PATH+"/discussion.html?id="+discussionId;	
 		}
 	}
 	
@@ -94,7 +99,7 @@ public class WebSocket{
 		inStream = null;
 		outStream = null;
 		websocketHandler.remove(socketId);
-		discussionHandler.get(discussionId).removeParticipant(socketId);
+		discussionHandler.get(discussionId).setOffline(socketId);
 		return 1;
 	}
 	

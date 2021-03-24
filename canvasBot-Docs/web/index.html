@@ -24,16 +24,13 @@
         <button class="btn btn-outline-success align-middle" style="float:right;  margin-top: 19.5px; margin-right: 20px; ">Help</button>
     </header>
     
-    
-    
-    
-    <form id='loginForm' class='card' style="width: 650px; height: 320px; margin: auto; margin-top: calc((100vh - 72px - 270px) * 1/3);">
+    <form id='loginForm' class='card' style="width: 650px; height: 320px; margin: auto; margin-top: calc((100vh - 72px - 270px) * 1/3); border-color: rgb(179, 179, 179);">
         <div style="width: 100%; padding: 20px; padding-bottom: 0px;"  class="btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-outline-secondary active" style="width: 42%;" onclick="displayLogin('canvas');" >
                 <input name="discussionType" id="canvasOption" type="radio" autocomplete="off"  checked>Canvas
             </label>
             <label class="btn btn-outline-secondary " style="width: 42%;"  onclick="displayLogin('discussion');">
-                <input name="discussionType" id="discussionOption" type="radio" autocomplete="off">Discussion
+                <input name="discussionType" id="discussionOption" type="radio" autocomplete="off">Join Room
             </label>
             <label class="btn btn-outline-secondary " style="width: 14%;"  onclick="displayLogin('test');">
                 <input name="discussionType" id="testOption" type="radio" autocomplete="off">Test
@@ -42,26 +39,14 @@
 
         <div class='card-body' id="loginFormBody">
             <div id='discussionLogin' style="display: none;">
-                <div class="input-group mb-3" style="margin-top: 20px !important;">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Discussion Id:</span>
-                    </div>
-                    <input type="url" class="form-control" aria-label="Default" id='discussionId' name='discussionUrl' aria-describedby="inputGroup-sizing-default">
-                
-                    <div class="invalid-feedback">
-                        Invalid id. Please try again, or consult the host of the discussion
-                    </div>
-                </div>
-                
-                <div class="input-group mb-3" style="margin-bottom: 40px !important;">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Name:</span>
-                    </div>
-                    <input type="text" class="form-control" id="userChosenName" name="userChosenName" aria-label="Default" id='canvasToken' name='canvasToken' aria-describedby="inputGroup-sizing-default">
-                    
-                    <div class="invalid-feedback">
-                        
-                    </div>
+                <h5 class="card-title" style="text-align: center; padding-bottom: 30px; font-weight: 100;">Type in discussion room id:</h5>
+                <div class="input-group mb-3" id="discussionIdWrapper" style="margin: 0px 0px 40px 0px !important; display: flex; flex-direction: row; justify-content: center; height: 43px;">
+                    <input type="text" class="inputDiscussionId" style="text-align: center; margin: 0px 8px; height: 100%;" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                    <input type="text" class="inputDiscussionId" style="text-align: center; margin: 0px 8px; height: 100%;" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                    <input type="text" class="inputDiscussionId" style="text-align: center; margin: 0px 21px 0px 8px; height: 100%;" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                    <input type="text" class="inputDiscussionId" style="text-align: center; margin: 0px 8px 0px 21px; height: 100%;" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                    <input type="text" class="inputDiscussionId" style="text-align: center; margin: 0px 8px; height: 100%;" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                    <input type="text" class="inputDiscussionId" style="text-align: center; margin: 0px 8px; height: 100%;" maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
                 </div>
             </div>
 
@@ -83,9 +68,17 @@
                 <img src="img/canvasLogo.png" style="height: 35px; margin-top: 70px; margin-bottom: 60px;"/>
             </div>
 
-            <button type="button" class="btn btn-outline-info" style="width: 100%;" onclick="loginOnClick();">Join</button>
+            <button type="button" class="btn btn-info" style="width: 100%;" onclick="loginOnClick();">Join</button>
         </div>
     </form>
+
+    <div class='card' style="width: 650px; margin: auto; margin-top: 10px;">
+        <div class="card-body" style="padding-top: 10px; padding-bottom: 10px;">
+            <p style="text-align: center; margin-bottom: 3px">-&nbsp;&nbsp;or&nbsp;&nbsp;-</p>
+            <button type="button" class="btn btn-outline-success" style="width: 100%;" onclick="createDiscussionRoom();">Create Discussion Room</button>
+        </div>
+    </div>
+
     <div id="appWrap" style="width: 100%; height: calc(100% - 72px); display: none;">
         <div id="participantList" class="scrollbar-grey" style="overflow: auto; float:left; width: 280px; height: 100%; background: rgb(243, 242, 242);">
             

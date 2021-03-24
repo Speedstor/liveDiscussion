@@ -162,26 +162,6 @@ public class OutStream{
 			log.error("error with sending custom binary data frame for web socket");
 		}
 	}
-	
-	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-	public static String bytesToHex(byte[] bytes) {
-	    char[] hexChars = new char[bytes.length * 2];
-	    for (int j = 0; j < bytes.length; j++) {
-	        int v = bytes[j] & 0xFF;
-	        hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-	        hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
-	    }
-	    String returnString = new String(hexChars);
-
-		String[] hexStringArray = returnString.split(String.format("(?<=\\G.{%1$d})", 2));
-		
-		returnString = "";
-		for(int i = 0; i < hexStringArray.length; i++) {
-			returnString += " 0x" + hexStringArray[i];
-		}
-		return returnString.substring(1);
-	}
-	
 
 	public void sendUnmaskPong(String message) {
 		String binaryInit = "10001010 0";
@@ -217,8 +197,6 @@ public class OutStream{
 		}
 		
 		byte[] returnByte = addAll(binaryToByte(binaryInit + payloadLenBin), payload);
-	
-		log.special(bytesToHex(returnByte));
 		
 		try {
 			outToClient.write(returnByte, 0, returnByte.length);

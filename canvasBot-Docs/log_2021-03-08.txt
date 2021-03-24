@@ -27,3 +27,260 @@
 2021-03-08 01:08:53  (1)LOG: Saved Cache in file
 2021-03-08 01:08:53  (4)STOP: Server stopped; run time: @1m42s
 2021-03-08 01:08:53  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-08 02:22:42  (1)LOG: Cache store retrieved from file
+2021-03-08 02:22:42  (1)LOG: Started @35.0ms
+2021-03-08 02:22:42  (1)LOG: Api server open on port: (40); started: 38.0ms
+2021-03-08 02:22:42  (1)LOG: Web server open on port: (80); started: 38.0ms
+2021-03-08 03:22:39  (-1)ERROR: @ConnectionThread-run(): exception error at web server
+2021-03-08 03:27:01  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5262,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-08 03:27:02  (1)LOG: New User: directTokenLogin
+2021-03-08 03:27:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5271,localport=40]; Path: GET /checkLogin?socketId=rV2r05BByO923DU&accountId=KmgQRpLqI3WWC7L HTTP/1.1
+2021-03-08 03:27:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5275,localport=40]; Path: GET /listDiscussions?socketId=rV2r05BByO923DU HTTP/1.1
+2021-03-08 03:27:12  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5289,localport=40]; Path: GET /checkLogin?socketId=rV2r05BByO923DU&accountId=KmgQRpLqI3WWC7L HTTP/1.1
+2021-03-08 03:27:12  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5294,localport=40]; Path: GET /initDiscussion?socketId=rV2r05BByO923DU&id=232v4931 HTTP/1.1
+2021-03-08 03:27:12  (1)LOG: New DBoard: net.speedstor.discussion.CanvasDiscussion@5b3c7d49; Total Boards: 1; id: Canvas-232v4931
+2021-03-08 03:27:12  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5296,localport=40]; Path: GET /view?socketId=rV2r05BByO923DU&id=232v4931 HTTP/1.1
+2021-03-08 03:27:13  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5298,localport=40]; Path: GET /socket?socketId=rV2r05BByO923DU HTTP/1.1
+2021-03-08 03:27:13  (1)LOG: DiscussionBoardSize: 1; url=https://fairmontschools.instructure.com/api/v1/courses/232/discussion_topics/4931
+2021-03-08 03:27:13  (1)LOG: Web Socket Established
+2021-03-08 19:13:19  (-1)ERROR: @ConnectionThread-run(): exception error at web server
+2021-03-08 19:13:19  (-1)ERROR: @ConnectionThread-run(): exception error at web server
+2021-03-08 19:13:19  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4436,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-08 19:13:20  (1)LOG: New User: directTokenLogin
+2021-03-08 19:13:20  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4445,localport=40]; Path: GET /checkLogin?socketId=Idh0mX5G0Iy73GX&accountId=4UDHFqJWEKdBHsG HTTP/1.1
+2021-03-08 19:13:21  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4449,localport=40]; Path: GET /listDiscussions?socketId=Idh0mX5G0Iy73GX HTTP/1.1
+2021-03-08 19:13:23  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4460,localport=40]; Path: GET /checkLogin?socketId=Idh0mX5G0Iy73GX&accountId=4UDHFqJWEKdBHsG HTTP/1.1
+2021-03-08 19:13:25  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4465,localport=40]; Path: GET /initDiscussion?socketId=Idh0mX5G0Iy73GX&id=232v4931 HTTP/1.1
+2021-03-08 19:13:25  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4467,localport=40]; Path: GET /view?socketId=Idh0mX5G0Iy73GX&id=232v4931 HTTP/1.1
+2021-03-08 19:13:26  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=4469,localport=40]; Path: GET /socket?socketId=Idh0mX5G0Iy73GX HTTP/1.1
+2021-03-08 19:13:26  (1)LOG: DiscussionBoardSize: 2; url=https://fairmontschools.instructure.com/api/v1/courses/232/discussion_topics/4931
+2021-03-08 19:13:26  (1)LOG: Web Socket Established
+2021-03-08 19:16:00  (--)LIST: /--- Size: 1 ------------------------------------------------------------------------------
+2021-03-08 19:16:00  (--)LIST:   Board: Canvas-232v4931;  Size: 2;  Sockets: [rV2r05BByO923DU, Idh0mX5G0Iy73GX];  
+2021-03-08 19:18:26  (4)STOP: Stopping Server...
+2021-03-08 19:18:26  (1)LOG: Saved Cache in file
+2021-03-08 19:18:26  (4)STOP: Server stopped; run time: @1015m44s
+2021-03-08 19:18:26  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-08 20:54:33  (1)LOG: Cache store retrieved from file
+2021-03-08 20:54:33  (1)LOG: Started @123.0ms
+2021-03-08 20:54:33  (1)LOG: Api server open on port: (40); started: 137.0ms
+2021-03-08 20:54:33  (1)LOG: Web server open on port: (80); started: 137.0ms
+2021-03-08 21:00:31  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5493,localport=40]; Path: GET /newUser?discussionId=undefined HTTP/1.1
+2021-03-08 21:00:46  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5514,localport=40]; Path: GET /newUser?discussionId=undefined HTTP/1.1
+2021-03-08 21:00:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5516,localport=40]; Path: GET /getLoginUrl? HTTP/1.1
+2021-03-08 21:00:53  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5525,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-08 21:00:58  (1)LOG: New User: directTokenLogin
+2021-03-08 21:00:58  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5534,localport=40]; Path: GET /checkLogin?socketId=jmfNcOa1yJgFiE7&accountId=NSWaD1yczqFGQHt HTTP/1.1
+2021-03-08 21:00:59  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5536,localport=40]; Path: GET /listDiscussions?socketId=jmfNcOa1yJgFiE7 HTTP/1.1
+2021-03-08 21:01:09  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5548,localport=40]; Path: GET /tokenLogin?canvasToken=dfsa HTTP/1.1
+2021-03-08 21:01:09  (0)WARN: @APIFunctions-tokenLogin(): Invalid login attempt
+2021-03-08 21:01:22  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=5555,localport=40]; Path: GET /tokenLogin?canvasToken=dfsa HTTP/1.1
+2021-03-08 21:01:22  (0)WARN: @APIFunctions-tokenLogin(): Invalid login attempt
+2021-03-08 21:02:12  (-1)ERROR: @ConnectionThread-run(): exception error at web server
+2021-03-08 21:02:12  (-1)ERROR: @ConnectionThread-run(): exception error at web server
+2021-03-08 21:58:51  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=7902,localport=40]; Path: GET /newUser?discussionId=234411 HTTP/1.1
+2021-03-08 21:59:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=7946,localport=40]; Path: GET /newUser?discussionId=232345 HTTP/1.1
+2021-03-08 22:00:57  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=7984,localport=40]; Path: GET /newUser?discussionId=232345 HTTP/1.1
+2021-03-08 22:01:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8006,localport=40]; Path: GET /newUser?discussionId=232345 HTTP/1.1
+2021-03-08 22:02:10  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8048,localport=40]; Path: GET /newUser?discussionId=123121 HTTP/1.1
+2021-03-08 22:15:56  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8764,localport=40]; Path: GET /createDiscussion HTTP/1.1
+2021-03-08 22:15:56  (1)LOG: New DBoard: net.speedstor.discussion.Discussion@a963960; Total Boards: 1; id: Discussion-135743
+2021-03-08 22:15:56  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8765,localport=40]; Path: GET /newUser?discussionId=[object%20Response] HTTP/1.1
+2021-03-08 22:16:08  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8785,localport=40]; Path: GET /createDiscussion HTTP/1.1
+2021-03-08 22:16:08  (1)LOG: New DBoard: net.speedstor.discussion.Discussion@41f83af0; Total Boards: 2; id: Discussion-743106
+2021-03-08 22:16:08  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8786,localport=40]; Path: GET /newUser?discussionId=[object%20Response] HTTP/1.1
+2021-03-08 22:16:08  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8796,localport=40]; Path: GET /checkLogin?socketId=&accountId= HTTP/1.1
+2021-03-08 22:17:32  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8863,localport=40]; Path: GET /createDiscussion HTTP/1.1
+2021-03-08 22:17:32  (1)LOG: New DBoard: net.speedstor.discussion.Discussion@7bfcce8d; Total Boards: 3; id: Discussion-450181
+2021-03-08 22:17:32  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8864,localport=40]; Path: GET /newUser?discussionId=function%20text()%20{%20[native%20code]%20} HTTP/1.1
+2021-03-08 22:17:32  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8874,localport=40]; Path: GET /checkLogin?socketId=&accountId= HTTP/1.1
+2021-03-08 22:17:53  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8908,localport=40]; Path: GET /createDiscussion HTTP/1.1
+2021-03-08 22:17:53  (1)LOG: New DBoard: net.speedstor.discussion.Discussion@5e4f4e30; Total Boards: 4; id: Discussion-518271
+2021-03-08 22:17:53  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8909,localport=40]; Path: GET /newUser?discussionId=[object%20Promise] HTTP/1.1
+2021-03-08 22:17:53  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8919,localport=40]; Path: GET /checkLogin?socketId=&accountId= HTTP/1.1
+2021-03-08 22:18:45  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8978,localport=40]; Path: GET /createDiscussion HTTP/1.1
+2021-03-08 22:18:45  (1)LOG: New DBoard: net.speedstor.discussion.Discussion@84ac73e; Total Boards: 5; id: Discussion-312828
+2021-03-08 22:18:45  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8979,localport=40]; Path: GET /newUser?discussionId=312828 HTTP/1.1
+2021-03-08 22:18:45  (1)LOG: New User: directTokenLogin
+2021-03-08 22:18:45  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8989,localport=40]; Path: GET /checkLogin?socketId=pqEfsWNkmKgLsKY&accountId=DeROiX2nnZa69Nt HTTP/1.1
+2021-03-08 22:18:50  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9000,localport=40]; Path: GET /initDiscussion?socketId=pqEfsWNkmKgLsKY&id=312828 HTTP/1.1
+2021-03-08 22:18:50  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9001,localport=40]; Path: GET /view?socketId=pqEfsWNkmKgLsKY&id=312828 HTTP/1.1
+2021-03-08 22:20:09  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9036,localport=40]; Path: GET /checkLogin?socketId=pqEfsWNkmKgLsKY&accountId=DeROiX2nnZa69Nt HTTP/1.1
+2021-03-08 22:20:09  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9039,localport=40]; Path: GET /initDiscussion?socketId=7sfWehWoiZ5xOEq&id=312828 HTTP/1.1
+2021-03-08 22:20:09  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9041,localport=40]; Path: GET /view?socketId=7sfWehWoiZ5xOEq&id=312828 HTTP/1.1
+2021-03-08 22:20:30  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9052,localport=40]; Path: GET /checkLogin?socketId=7sfWehWoiZ5xOEq&accountId=DeROiX2nnZa69Nt HTTP/1.1
+2021-03-08 22:20:30  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9055,localport=40]; Path: GET /initDiscussion?socketId=mC7F5jve3oiudbC&id=312828 HTTP/1.1
+2021-03-08 22:20:30  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9056,localport=40]; Path: GET /view?socketId=mC7F5jve3oiudbC&id=312828 HTTP/1.1
+2021-03-08 22:20:50  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9076,localport=40]; Path: GET /newUser?discussionId=312828 HTTP/1.1
+2021-03-08 22:20:50  (1)LOG: New User: directTokenLogin
+2021-03-08 22:20:50  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9086,localport=40]; Path: GET /checkLogin?socketId=YjpCWBQi2pBoMHa&accountId=ssS5fI4ziY2psqr HTTP/1.1
+2021-03-08 22:20:51  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9092,localport=40]; Path: GET /initDiscussion?socketId=YjpCWBQi2pBoMHa&id=312828 HTTP/1.1
+2021-03-08 22:20:51  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9093,localport=40]; Path: GET /view?socketId=YjpCWBQi2pBoMHa&id=312828 HTTP/1.1
+2021-03-08 22:24:59  (4)STOP: Stopping Server...
+2021-03-08 22:24:59  (1)LOG: Saved Cache in file
+2021-03-08 22:24:59  (4)STOP: Server stopped; run time: @90m25s
+2021-03-08 22:24:59  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-08 22:25:01  (1)LOG: Cache store retrieved from file
+2021-03-08 22:25:01  (1)LOG: Started @39.0ms
+2021-03-08 22:25:01  (1)LOG: Api server open on port: (40); started: 39.0ms
+2021-03-08 22:25:01  (1)LOG: Web server open on port: (80); started: 39.0ms
+2021-03-08 22:25:11  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9236,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-08 22:25:12  (1)LOG: New User: directTokenLogin
+2021-03-08 22:25:12  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9243,localport=40]; Path: GET /checkLogin?socketId=nIv3SQvKxj3SrA0&accountId=QYzDmnSxLIxjHPb HTTP/1.1
+2021-03-08 22:25:12  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9246,localport=40]; Path: GET /listDiscussions?socketId=nIv3SQvKxj3SrA0 HTTP/1.1
+2021-03-08 22:25:20  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9260,localport=40]; Path: GET /checkLogin?socketId=nIv3SQvKxj3SrA0&accountId=QYzDmnSxLIxjHPb HTTP/1.1
+2021-03-08 22:25:21  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9265,localport=40]; Path: GET /initDiscussion?socketId=nIv3SQvKxj3SrA0&id=232v4931 HTTP/1.1
+2021-03-08 22:25:21  (1)LOG: New DBoard: net.speedstor.discussion.CanvasDiscussion@5537dd32; Total Boards: 1; id: Canvas-232v4931
+2021-03-08 22:25:21  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9266,localport=40]; Path: GET /view?socketId=nIv3SQvKxj3SrA0&id=232v4931 HTTP/1.1
+2021-03-08 22:26:18  (4)STOP: Stopping Server...
+2021-03-08 22:26:18  (1)LOG: Saved Cache in file
+2021-03-08 22:26:18  (4)STOP: Server stopped; run time: @1m16s
+2021-03-08 22:26:18  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-08 22:26:20  (1)LOG: Cache store retrieved from file
+2021-03-08 22:26:20  (1)LOG: Api server open on port: (40); started: 34.0ms
+2021-03-08 22:26:20  (1)LOG: Started @33.0ms
+2021-03-08 22:26:20  (1)LOG: Web server open on port: (80); started: 34.0ms
+2021-03-08 22:26:28  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9313,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-08 22:26:29  (1)LOG: New User: directTokenLogin
+2021-03-08 22:26:29  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9323,localport=40]; Path: GET /checkLogin?socketId=myGOtESJIynbvey&accountId=2UkfxdYyJeHKXn1 HTTP/1.1
+2021-03-08 22:26:29  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9325,localport=40]; Path: GET /listDiscussions?socketId=myGOtESJIynbvey HTTP/1.1
+2021-03-08 22:26:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9337,localport=40]; Path: GET /checkLogin?socketId=myGOtESJIynbvey&accountId=2UkfxdYyJeHKXn1 HTTP/1.1
+2021-03-08 22:26:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9340,localport=40]; Path: GET /initDiscussion?socketId=myGOtESJIynbvey&id=232v4931 HTTP/1.1
+2021-03-08 22:26:35  (1)LOG: New DBoard: net.speedstor.discussion.CanvasDiscussion@413c1177; Total Boards: 1; id: Canvas-232v4931
+2021-03-08 22:26:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9341,localport=40]; Path: GET /view?socketId=myGOtESJIynbvey&id=232v4931 HTTP/1.1
+2021-03-08 22:26:36  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:38  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:39  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:41  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:43  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:45  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:47  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:49  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:51  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:52  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:54  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:56  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:58  (3)DEBUG: @CanvasDiscussion-updateJson()[195]: []
+2021-03-08 22:26:59  (4)STOP: Stopping Server...
+2021-03-08 22:26:59  (1)LOG: Saved Cache in file
+2021-03-08 22:26:59  (4)STOP: Server stopped; run time: @0m38s
+2021-03-08 22:26:59  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-08 22:27:06  (1)LOG: Cache store retrieved from file
+2021-03-08 22:27:06  (1)LOG: Started @34.0ms
+2021-03-08 22:27:06  (1)LOG: Api server open on port: (40); started: 34.0ms
+2021-03-08 22:27:06  (1)LOG: Web server open on port: (80); started: 34.0ms
+2021-03-08 22:27:17  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9377,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-08 22:27:19  (1)LOG: New User: directTokenLogin
+2021-03-08 22:27:19  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9385,localport=40]; Path: GET /checkLogin?socketId=JcCbzWZJ1NjLYD8&accountId=cIC2qihv7YaVXk6 HTTP/1.1
+2021-03-08 22:27:19  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9388,localport=40]; Path: GET /listDiscussions?socketId=JcCbzWZJ1NjLYD8 HTTP/1.1
+2021-03-08 22:27:25  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9401,localport=40]; Path: GET /checkLogin?socketId=JcCbzWZJ1NjLYD8&accountId=cIC2qihv7YaVXk6 HTTP/1.1
+2021-03-08 22:27:25  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9404,localport=40]; Path: GET /initDiscussion?socketId=JcCbzWZJ1NjLYD8&id=232v4931 HTTP/1.1
+2021-03-08 22:27:25  (1)LOG: New DBoard: net.speedstor.discussion.CanvasDiscussion@9920c6a; Total Boards: 1; id: Canvas-232v4931
+2021-03-08 22:27:25  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9405,localport=40]; Path: GET /view?socketId=JcCbzWZJ1NjLYD8&id=232v4931 HTTP/1.1
+2021-03-08 22:28:16  (4)STOP: Stopping Server...
+2021-03-08 22:28:16  (1)LOG: Saved Cache in file
+2021-03-08 22:28:16  (4)STOP: Server stopped; run time: @1m10s
+2021-03-08 22:28:16  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-08 22:28:19  (1)LOG: Cache store retrieved from file
+2021-03-08 22:28:19  (1)LOG: Started @43.0ms
+2021-03-08 22:28:19  (1)LOG: Web server open on port: (80); started: 44.0ms
+2021-03-08 22:28:19  (1)LOG: Api server open on port: (40); started: 45.0ms
+2021-03-08 22:28:27  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9454,localport=40]; Path: GET /tokenLogin?canvasToken=8918~fRvcPzh1Z3hXqq5Z61DaPSmxS1Hrw2mJEPJmw5Q0ts0Nvcd9mEGo5E1H5XVEvRfJ HTTP/1.1
+2021-03-08 22:28:28  (1)LOG: New User: directTokenLogin
+2021-03-08 22:28:28  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9463,localport=40]; Path: GET /checkLogin?socketId=nDXUDXFbacZtgux&accountId=DSDH4JI1cTnfQeJ HTTP/1.1
+2021-03-08 22:28:28  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9466,localport=40]; Path: GET /listDiscussions?socketId=nDXUDXFbacZtgux HTTP/1.1
+2021-03-08 22:28:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9479,localport=40]; Path: GET /checkLogin?socketId=nDXUDXFbacZtgux&accountId=DSDH4JI1cTnfQeJ HTTP/1.1
+2021-03-08 22:28:36  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9482,localport=40]; Path: GET /initDiscussion?socketId=nDXUDXFbacZtgux&id=232v4931 HTTP/1.1
+2021-03-08 22:28:36  (1)LOG: New DBoard: net.speedstor.discussion.CanvasDiscussion@6c353c21; Total Boards: 1; id: Canvas-232v4931
+2021-03-08 22:28:36  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9483,localport=40]; Path: GET /view?socketId=nDXUDXFbacZtgux&id=232v4931 HTTP/1.1
+2021-03-08 22:28:37  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9486,localport=40]; Path: GET /socket?socketId=nDXUDXFbacZtgux HTTP/1.1
+2021-03-08 22:28:37  (1)LOG: DiscussionBoardSize: 1;
+2021-03-08 22:28:37  (1)LOG: Web Socket Established
+2021-03-08 22:29:43  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9532,localport=40]; Path: GET /checkLogin?socketId=nDXUDXFbacZtgux&accountId=DSDH4JI1cTnfQeJ HTTP/1.1
+2021-03-08 22:29:44  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9536,localport=40]; Path: GET /initDiscussion?socketId=y9AzdDnjaOCXF4s&id=312828 HTTP/1.1
+2021-03-08 22:29:44  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9545,localport=40]; Path: GET /checkLogin?socketId=y9AzdDnjaOCXF4s&accountId=DSDH4JI1cTnfQeJ HTTP/1.1
+2021-03-08 22:29:44  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9547,localport=40]; Path: GET /listDiscussions?socketId=y9AzdDnjaOCXF4s HTTP/1.1
+2021-03-08 22:30:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9565,localport=40]; Path: GET /createDiscussion HTTP/1.1
+2021-03-08 22:30:02  (1)LOG: New DBoard: net.speedstor.discussion.Discussion@1466b363; Total Boards: 2; id: Discussion-433771
+2021-03-08 22:30:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9566,localport=40]; Path: GET /newUser?discussionId=433771 HTTP/1.1
+2021-03-08 22:30:02  (1)LOG: New User: directTokenLogin
+2021-03-08 22:30:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9576,localport=40]; Path: GET /checkLogin?socketId=krbIuzOOl7PjWxL&accountId=LJcs75H0QK51Xeh HTTP/1.1
+2021-03-08 22:30:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9579,localport=40]; Path: GET /initDiscussion?socketId=krbIuzOOl7PjWxL&id=433771 HTTP/1.1
+2021-03-08 22:30:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9580,localport=40]; Path: GET /view?socketId=krbIuzOOl7PjWxL&id=433771 HTTP/1.1
+2021-03-08 22:31:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9691,localport=40]; Path: GET /checkLogin?socketId=krbIuzOOl7PjWxL&accountId=LJcs75H0QK51Xeh HTTP/1.1
+2021-03-08 22:31:49  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9695,localport=40]; Path: GET /initDiscussion?socketId=zORh9Xs3nhbKjDC&id=433771 HTTP/1.1
+2021-03-08 22:31:49  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9697,localport=40]; Path: GET /view?socketId=zORh9Xs3nhbKjDC&id=433771 HTTP/1.1
+2021-03-08 22:39:50  (4)STOP: Stopping Server...
+2021-03-08 22:39:50  (1)LOG: Saved Cache in file
+2021-03-08 22:39:50  (4)STOP: Server stopped; run time: @11m31s
+2021-03-08 22:39:50  ------end------
+------------------------------------------
+ Canvas Bot 0.5                            
+------------------------------------------
+2021-03-08 22:39:53  (1)LOG: Cache store retrieved from file
+2021-03-08 22:39:53  (1)LOG: Started @43.0ms
+2021-03-08 22:39:53  (1)LOG: Api server open on port: (40); started: 44.0ms
+2021-03-08 22:39:53  (1)LOG: Web server open on port: (80); started: 44.0ms
+2021-03-08 22:40:01  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9979,localport=40]; Path: GET /checkLogin?socketId=zORh9Xs3nhbKjDC&accountId=LJcs75H0QK51Xeh HTTP/1.1
+2021-03-08 22:40:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9984,localport=40]; Path: GET /initDiscussion?socketId=RdiaVCsL8aWuAzr&id=433771 HTTP/1.1
+2021-03-08 22:40:02  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9993,localport=40]; Path: GET /checkLogin?socketId=RdiaVCsL8aWuAzr&accountId=LJcs75H0QK51Xeh HTTP/1.1
+2021-03-08 22:40:03  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=9995,localport=40]; Path: GET /listDiscussions?socketId=RdiaVCsL8aWuAzr HTTP/1.1
+2021-03-08 22:40:05  (-1)ERROR: @APIFunctions-listDiscussions(): parse json for listing courses error
+2021-03-08 22:40:31  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=10021,localport=40]; Path: GET /createDiscussion HTTP/1.1
+2021-03-08 22:40:31  (1)LOG: New DBoard: net.speedstor.discussion.Discussion@7ba10ca9; Total Boards: 1; id: Discussion-142499
+2021-03-08 22:40:31  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=10023,localport=40]; Path: GET /newUser?discussionId=142499 HTTP/1.1
+2021-03-08 22:40:31  (1)LOG: New User: directTokenLogin
+2021-03-08 22:40:31  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=10033,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:40:33  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=10037,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:40:33  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=10038,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:40:33  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=10041,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1
+2021-03-08 22:47:33  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=7977,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:47:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=7981,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:47:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=7983,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:47:35  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=7986,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1
+2021-03-08 22:48:40  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8043,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:48:41  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8046,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:48:41  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8048,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:48:41  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8050,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1
+2021-03-08 22:51:03  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8153,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:51:04  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8158,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:51:04  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8160,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:51:04  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8162,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1
+2021-03-08 22:51:52  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8202,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:51:53  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8205,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:51:53  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8207,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:51:53  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8210,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1
+2021-03-08 22:53:32  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8277,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:53:33  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8281,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:53:33  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8283,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:53:34  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8285,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1
+2021-03-08 22:54:22  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8329,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:54:23  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8333,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:54:23  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8335,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:54:24  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8337,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1
+2021-03-08 22:54:46  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8364,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:54:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8367,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:54:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8369,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:54:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8371,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1
+2021-03-08 22:55:46  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8420,localport=40]; Path: GET /checkLogin?socketId=UFTj0tTjBCDaRCO&accountId=BBJLKcaVflqNBqr HTTP/1.1
+2021-03-08 22:55:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8424,localport=40]; Path: GET /initDiscussion?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:55:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8426,localport=40]; Path: GET /view?socketId=UFTj0tTjBCDaRCO&id=142499 HTTP/1.1
+2021-03-08 22:55:48  (1)LOG: Request: Socket[addr=/0:0:0:0:0:0:0:1,port=8428,localport=40]; Path: GET /socket?socketId=UFTj0tTjBCDaRCO HTTP/1.1

@@ -120,6 +120,27 @@ public class APIServerThread extends Thread{
 		        case "/initDiscu":
 		        	returnClientRequest = apiFunctions.loginUser(request[1].substring(urlSeperatorLoc + 1));
 		        	break;
+		        case "/changeUserName":
+		        	returnClientRequest = apiFunctions.changeUserName(urlParameter);
+		        	break;
+		        case "/changeDiscussionTitle":
+		        	returnClientRequest = apiFunctions.changeDiscussionTitle(urlParameter);
+		        	break;
+		        case "/changeDiscussionTopic":
+		        	returnClientRequest = apiFunctions.changeDiscussionTopic(urlParameter);
+		        	break;
+		        case "/leaveDiscussion":
+		        	returnClientRequest = apiFunctions.leaveDiscussion(urlParameter);
+		        	break;
+		        case "/createDiscussion":
+		        	returnClientRequest = apiFunctions.createDiscussion();
+		        	break;
+		        case "/newUser":
+		        	returnClientRequest = apiFunctions.newUser(urlParameter);
+		        	break;
+		        case "/join":
+		        	returnClientRequest = apiFunctions.join(urlParameter);
+		        	break;
 		        case "/send":
 		        	returnClientRequest = apiFunctions.sendMessage(urlParameter, inFromClient);
 		        	break;
@@ -209,6 +230,10 @@ public class APIServerThread extends Thread{
 			//get socket id
 			HashMap<String, String>parameters = apiFunctions.parseUrlParameter(parametersString);
 			if(!parameters.containsKey("socketId")) return -1; //need socket id
+			WebSocket websocket = websocketHandler.get(parameters.get("socketId"));
+			if(websocket == null) {
+				return 0;
+			}
 			
 			//handshake
 			headerOut.println("HTTP/1.1 101 Switching Protocols");
@@ -220,10 +245,9 @@ public class APIServerThread extends Thread{
 			headerOut.flush(); // flush character output stream buffer
 			
 			//continued in websocket
-			WebSocket websocket = websocketHandler.get(parameters.get("socketId"));
-			websocket.initSetup(client, inFromClient, outToClient);  
+			websocket.initSetup(client, inFromClient, outToClient);
 			
-			discussionHandler.get(websocket.getDiscussionId()).addParticipant(parameters.get("socketId"));
+			discussionHandler.get(websocket.getDiscussionId()).setOnline(parameters.get("socketId"));
 		} catch (IOException | NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			log.error("writing websocket header error");

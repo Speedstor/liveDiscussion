@@ -8,8 +8,6 @@ public class Settings {
 	public static String TOKENDB_FILE_NAME = "tokensDB.txt";
 	
 	final public static int DISCUSSION_ID_SIMPLE_LENGTH = 6;
-	final public static int DISCUSSION_ID_COMPLEX_LENGTH = 10;
-	final public static int DISCUSSION_ID_CANVAS_LENGTH = 8;
 	
 	//public static String CANVAS_DOMAIN = "https://fairmontschools.beta.instructure.com";
 	public static String CANVAS_DOMAIN = "https://fairmontschools.instructure.com";
@@ -20,8 +18,10 @@ public class Settings {
 	
 	public static int WEB_SERVER_PORT = 80;	
 	public static String WEB_FOLDER_PATH = DOCS_LOC+"/web";
-	
-	public static String LOGIN_DESTINATION = "http://localhost/choose.html";
+	public static String WEB_ADDRESS_PATH = "http://localhost";
+
+	public static String LOGIN_DESTINATION = WEB_ADDRESS_PATH + "/choose.html";
+	public static String DEFAULT_USER_IMAGE_PATH = WEB_ADDRESS_PATH + "/img/defaultUserImg.png";
 	//public static String LOGIN_DESTINATION = "http://http.speedstor.net/liveDiscussion/choose.html";
 	
 	public static boolean DISCONNECT_FROM_CANVAS = true;
@@ -31,5 +31,4 @@ public class Settings {
 	public static long LISTEN_SPEED_INTERVAL = 600;
 	public static long CMD_LISTEN_SPEED_INTERVAL = 2000;
 	public static long SEND_SPEED_INTERVAL = 120;
-	
 }

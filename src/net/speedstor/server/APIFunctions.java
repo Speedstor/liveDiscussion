@@ -3,9 +3,12 @@ package net.speedstor.server;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.time.Clock;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -50,14 +53,59 @@ public class APIFunctions {
 	}
 	
 	//#region independent from canvas
-	public String createDiscussion(String urlParameter) {
-		String returnString = "";
+	public String createDiscussion() {
+		String discussionId;
+		discussionId = ""+(100000+(new Random()).nextInt(899999));
+
+		//create discussion board
+		Discussion discussion = new Discussion(log, clock, tokenHandler, websocketHandler, cache);
+		discussionHandler.put(discussionId, discussion);
 		
-		//discussionHandler.
+		log.log("New DBoard: " + discussion.toString() + "; Total Boards: " + discussionHandler.getSize() + "; id: Discussion-" + discussionId);
 		
-		return returnString;
+		return discussionId;
 	}
 	
+	public String newUser(String urlParameter) {
+		HashMap<String, String> parameters = parseUrlParameter(urlParameter);
+		if(parameters == null)  return "{\"error\": \"parameter error\"}";
+		
+		if(!parameters.containsKey("discussionId")) return "{\"error\": \"noId\"}";
+		if(!discussionHandler.containKey((parameters.get("discussionId")))) return "{\"error\": \"invalid id\"}";
+		
+		String socketId = getAlphaNumericString(TOKEN_LENGTH);
+		while(tokenHandler.socketList_containKey(socketId))  socketId = getAlphaNumericString(TOKEN_LENGTH);
+
+		String accountId;
+		if(parameters.containsKey("accountId") && tokenHandler.tokenDB_get(parameters.get("accountId")) != null) {
+			accountId = parameters.get("accountId");
+		}else {			
+			accountId = getAlphaNumericString(TOKEN_LENGTH); //serverToken
+			while(tokenHandler.tokenDB_containKey(accountId))  accountId = getAlphaNumericString(TOKEN_LENGTH);
+			while(tokenHandler.socketList_containValue(accountId))  accountId = getAlphaNumericString(TOKEN_LENGTH);
+			tokenHandler.addToken(accountId, "null", "null", accountId, "independentFromCanvas");
+		}
+		
+		tokenHandler.socketList_put(socketId, accountId);
+		
+		return "{\"socketId\": \""+socketId+"\", \"accountId\": \""+accountId+"\"}";
+	}
+	
+	public String join(String urlParameter) {
+		HashMap<String, String> parameters = parseUrlParameter(urlParameter);
+		if(parameters == null)  return "0-parameter error";
+
+		if(!parameters.containsKey("socketId")) return "{\"error\": \"need socketId\"}";
+		if(!parameters.containsKey("userName")) return "{\"error\": \"need userName\"}";
+		
+		String socketId = parameters.get("socketId");
+		String serverId = websocketHandler.get(socketId).getUserId();
+		String userName = parameters.get("userName");
+		
+		Discussion discussion = discussionHandler.get(websocketHandler.get(socketId).getDiscussionId());
+		discussion.addParticipant(serverId, userName);		
+		return "{\"success\": true}";
+	}
 	//#endregion
 	
 	//#region oauth login
@@ -191,14 +239,14 @@ public class APIFunctions {
 					discussionObject.put("name", (String) ((JSONObject) courseItem).get("name"));
 					discussionObject.put("id", courseId);
 					discussionObject.put("discussions", discussionArray);
+					discussionList.put(courseId, discussionObject);
 				} catch (ParseException e) {
 					log.error("parse json for listing discussion error");
 				}
 
-				discussionList.put(courseId, discussionObject);
 			});
 		} catch (ParseException e) {
-			log.error("parse json for listing courses error");
+			log.error("parse json for listing courses error 2");
 			return "0-server parse json error";
 		}
 		
@@ -206,66 +254,140 @@ public class APIFunctions {
 		
 		return discussionList.toJSONString();
 	}
+	
+	public String changeUserName(String urlParameter) {
+		HashMap<String, String> parameters = parseUrlParameter(urlParameter);
+		if(parameters == null)  return "{\"error\": \"parameter error\"}";
+		if(!parameters.containsKey("accountId"))  return "{\"error\": \"need accountId\"}";
+		if(!parameters.containsKey("userId"))  return "{\"error\": \"need discussionId\"}";
+		if(!parameters.containsKey("newUserName"))  return "{\"error\": \"need newUserName\"}";
+		
+		String discussionId = parameters.get("discussionId");
+		String userId = parameters.get("userId");
+		Discussion focusedDiscussion = discussionHandler.get(discussionId);
+		if(focusedDiscussion == null)  return "{\"error\": \"invalid discussionId\"}";
+		if(!focusedDiscussion.hasParticipant(userId)) return "{\"error\": \"don't have access to discussion\"}";
+		
+		focusedDiscussion.changeParticipantName(userId, parameters.get("newUserName"));
+		return "{\"success\": true}";
+	}
+	
+	public String changeDiscussionTitle(String urlParameter) {
+		HashMap<String, String> parameters = parseUrlParameter(urlParameter);
+		if(parameters == null)  return "{\"error\": \"parameter error\"}";
+		if(!parameters.containsKey("accountId"))  return "{\"error\": \"need accountId\"}";
+		if(!parameters.containsKey("discussionId"))  return "{\"error\": \"need discussionId\"}";
 
+		String discussionId = parameters.get("discussionId");
+		String userId = parameters.get("accountId");
+		Discussion focusedDiscussion = discussionHandler.get(discussionId);
+		if(focusedDiscussion == null)  return "{\"error\": \"invalid discussionId\"}";
+		if(!focusedDiscussion.hasParticipant(userId)) return "{\"error\": \"don't have access to discussion\"}";
+		
+		try {
+			focusedDiscussion.setTitle(URLDecoder.decode(parameters.get("newDiscussionTitle"), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "{\"success\": true}";		
+	}
+	
+	public String changeDiscussionTopic(String urlParameter) {
+		HashMap<String, String> parameters = parseUrlParameter(urlParameter);
+		if(parameters == null)  return "{\"error\": \"parameter error\"}";
+		if(!parameters.containsKey("accountId"))  return "{\"error\": \"need accountId\"}";
+		if(!parameters.containsKey("discussionId"))  return "{\"error\": \"need discussionId\"}";
+		if(!parameters.containsKey("newDiscussionTopic"))  return "{\"error\": \"need newDiscussionTopic\"}";
+
+		String discussionId = parameters.get("discussionId");
+		String userId = parameters.get("accountId");
+		Discussion focusedDiscussion = discussionHandler.get(discussionId);
+		if(focusedDiscussion == null)  return "{\"error\": \"invalid discussionId\"}";
+		if(!focusedDiscussion.hasParticipant(userId)) return "{\"error\": \"don't have access to discussion\"}";
+
+		try {
+			focusedDiscussion.setTopic(URLDecoder.decode(parameters.get("newDiscussionTopic"), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "{\"success\": true}";
+	}
+	
+	public String leaveDiscussion(String urlParameter) {
+		HashMap<String, String> parameters = parseUrlParameter(urlParameter);
+		if(parameters == null)  return "{\"error\": \"parameter error\"}";
+		if(!parameters.containsKey("accountId"))  return "{\"error\": \"need accountId\"}";
+		if(!parameters.containsKey("discussionId"))  return "{\"error\": \"need discussionId\"}";
+		
+		String discussionId = parameters.get("discussionId");
+		String userId = parameters.get("accountId");
+		Discussion focusedDiscussion = discussionHandler.get(discussionId);
+		if(focusedDiscussion == null)  return "{\"error\": \"invalid discussionId\"}";
+		if(!focusedDiscussion.hasParticipant(userId)) return "{\"error\": \"don't have access to discussion\"}";
+		
+		focusedDiscussion.removeParticipant(userId);
+		return "{\"success\": true}";
+	}
+
+	//important, undescriptive name, this one is only for canvas discussions
 	public String initDiscussion(String urlParameter) {
 		HashMap<String, String> parameters = parseUrlParameter(urlParameter);
-		if(parameters == null)  return "0-parameter error";
+		if(parameters == null)  return "{\"error\": \"parameter error\"}";
 
-		if(!parameters.containsKey("socketId"))  return "0-must need socketId";
-		if(!parameters.containsKey("id"))  return "0-must need discussion id";
-		if(!tokenHandler.socketList_containKey(parameters.get("socketId"))) return "0-invalid socketId";
+		if(!parameters.containsKey("socketId")) return "{\"error\": \"must need socketId\"}";
+		if(!parameters.containsKey("id")) return "{\"error\": \"must need discussion id\"}";
+		if(!tokenHandler.socketList_containKey(parameters.get("socketId"))) return "{\"error\": \"invalid socketId\"}";
 		
 		String socketId = parameters.get("socketId");
 		String serverToken = tokenHandler.socketList_get(socketId);
 		String canvasToken = tokenHandler.tokenDB_get(serverToken)[0];
 		
-		String[] discussionIds = parameters.get("id").split("v");
-		String courseId;
-		String discussionId;
-		if(discussionIds.length == 2) {
-			courseId = discussionIds[0];
-			discussionId = discussionIds[1];
-		}else {
-			return "0-invalid discussion id";
-		}
-	
-		String discussionUrl = Settings.API_URL+"/courses/"+courseId+"/discussion_topics/"+discussionId;
+		boolean hasParticipant = false;
 		
-		//check accessibility of user
-		String testDiscussionResponse = Network.sendGet(discussionUrl+"?access_token="+canvasToken);
-		if(testDiscussionResponse == "error: catch error") {
-			return "0-lack permission to discussion";
+		String discussionId = parameters.get("id");
+		if(discussionId.contains("v")) {
+			String[] discussionIds = parameters.get("id").split("v");
+			if(discussionIds.length != 2) return "{\"error\": \"invalid discussion id\"}";
+			String courseId = discussionIds[0];
+			String canvasDiscussionId = discussionIds[1];
+
+			String discussionUrl = Settings.API_URL+"/courses/"+courseId+"/discussion_topics/"+canvasDiscussionId;
+			
+			//check accessibility of user
+			String testDiscussionResponse = Network.sendGet(discussionUrl+"?access_token="+canvasToken);
+			if(testDiscussionResponse == "error: catch error") {
+				return "{\"error\": \"lack permission to discussion || id doesn't exists on canvas server\"}";
+			}
+			discussionUrl += "/view";
+			
+			if(!discussionHandler.containKey(discussionId)) {
+				CanvasDiscussion canvasDiscussion = new CanvasDiscussion(log, discussionUrl, clock, tokenHandler, serverToken, websocketHandler, cache);
+				
+				try {
+					JSONObject discussion = (JSONObject) parser.parse(testDiscussionResponse);
+					canvasDiscussion.setTopic((String) discussion.get("message"));
+					canvasDiscussion.setTitle((String) discussion.get("title"));
+				} catch (ParseException e) {
+					log.error("Error parsing discussion");
+				}
+				
+				Thread discussionHandlerThread = new Thread(canvasDiscussion);
+				discussionHandlerThread.start();
+				discussionHandler.put(discussionId, canvasDiscussion);
+				
+				log.log("New DBoard: " + canvasDiscussion.toString() + "; Total Boards: " + discussionHandler.getSize() + "; id: Canvas-" + discussionId);
+			}
+			hasParticipant = true;
+		}else {
+			if(!discussionHandler.containKey(discussionId)) return "{\"error\": \"invalid discussion id\"}";
+			
+			hasParticipant = discussionHandler.get(discussionId).hasParticipant(serverToken);
 		}
 
-		discussionUrl += "/view";
-		
-		String reconstructedId = courseId+"v"+discussionId;
-		if(discussionHandler.containKey(reconstructedId)) {
-			//discussionHandler.canvas_get(reconstructedId).addParticipant(socketId);
-		}else {
-			CanvasDiscussion canvasDiscussion = new CanvasDiscussion(log, discussionUrl, clock, tokenHandler, serverToken, websocketHandler, cache);
-			//discussionHandler.addParticipant(token);
-			
-			try {
-				JSONObject discussion = (JSONObject) parser.parse(testDiscussionResponse);
-				canvasDiscussion.setTopic((String) discussion.get("message"));
-				canvasDiscussion.setTitle((String) discussion.get("title"));
-			} catch (ParseException e) {
-				log.error("Error parsing discussion");
-			}
-			
-			Thread discussionHandlerThread = new Thread(canvasDiscussion);
-			discussionHandlerThread.start();
-			discussionHandler.put(reconstructedId, canvasDiscussion);
-			
-			log.log("New DBoard: " + canvasDiscussion.toString() + "; Total Boards: " + discussionHandler.getSize() + "; id: Canvas-" + reconstructedId);
-		}
-		
-		WebSocket newWebsocket = new WebSocket(log, clock, reconstructedId, apiServer, tokenHandler, socketId, discussionHandler, websocketHandler, tokenHandler.tokenDB_get(serverToken)[2]);
-		
+		WebSocket newWebsocket = new WebSocket(log, clock, discussionId, apiServer, tokenHandler, socketId, discussionHandler, websocketHandler, tokenHandler.tokenDB_get(serverToken)[2]);		
 		websocketHandler.addWebsocket(socketId, newWebsocket);
 		
-		return "true "+tokenHandler.tokenDB_get(serverToken)[2];
+		return "{\"success\": true, \"userId\": \""+tokenHandler.tokenDB_get(serverToken)[2]+"\", \"hasParticipant\": "+hasParticipant+"}";
 	}
 	
 	public String requestDiscussionJson(String urlParameter) {
@@ -320,7 +442,7 @@ public class APIFunctions {
 			return "0-server connection error";
 		}
 		
-		if(parameters.get("key").length() == Settings.DISCUSSION_ID_CANVAS_LENGTH) {
+		if(parameters.get("discussionId").contains("v")) {
 			CanvasDiscussion canvasDiscussion = (CanvasDiscussion) discussionHandler.get(parameters.get("discussionId"));		
 			return canvasDiscussion.sendNewMessage(parameters.get("socketId"), message);
 		}else {
@@ -347,7 +469,6 @@ public class APIFunctions {
 				payloadString.append((char) inFromClient.read());
 			}
 		
-			log.debug(payloadString.toString());
 			JSONObject payload = (JSONObject) parser.parse(payloadString.toString());
 			if(!payload.containsKey("message")) return "0-body need message";
 			if(!payload.containsKey("replyTo")) return "0-body need message id to reply to";
@@ -362,7 +483,7 @@ public class APIFunctions {
 		}
 		
 
-		if(parameters.get("key").length() == Settings.DISCUSSION_ID_CANVAS_LENGTH) {
+		if(parameters.get("discussionId").contains("v")) {
 			CanvasDiscussion canvasDiscussion = (CanvasDiscussion) discussionHandler.get(parameters.get("discussionId"));		
 			return canvasDiscussion.sendNewReply(parameters.get("socketId"), replyTo, message);
 		}else {
@@ -414,7 +535,7 @@ public class APIFunctions {
 		}else {
 			try {
 				JSONArray courses = (JSONArray) parser.parse(testApiFetch);
-				accountUserId = ((JSONObject) ((JSONArray) ((JSONObject) courses.get(0)).get("enrollments")).get(0)).get("user_id")+"";
+				accountUserId = ((JSONObject) ((JSONArray) ((JSONObject) courses.get(1)).get("enrollments")).get(0)).get("user_id")+"";
 			} catch (ParseException e) {
 				log.error("parse account course json error");
 				//e.printStackTrace();

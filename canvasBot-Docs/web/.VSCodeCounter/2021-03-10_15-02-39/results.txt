@@ -1,0 +1,42 @@
+Date : 2021-03-10 15:02:39
+Directory : c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web
+Total : 14 files,  2984 codes, 171 comments, 477 blanks, all 3632 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |          7 |      2,106 |        152 |        357 |      2,615 |
+| CSS        |          3 |        517 |          9 |         77 |        603 |
+| HTML       |          4 |        361 |         10 |         43 |        414 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                             | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                |         14 |      2,984 |        171 |        477 |      3,632 |
+| css                                                                              |          3 |        517 |          9 |         77 |        603 |
+| js                                                                               |          7 |      2,106 |        152 |        357 |      2,615 |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                         | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\choose.html            | HTML       |         44 |          0 |          9 |         53 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\css\liveDiscussion.css | CSS        |        390 |          8 |         44 |        442 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\css\spz.css            | CSS        |         17 |          0 |          7 |         24 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\css\textBox.css        | CSS        |        110 |          1 |         26 |        137 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\discussion.html        | HTML       |        158 |          2 |         14 |        174 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\index.html             | HTML       |        117 |          8 |         15 |        140 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\join.html              | HTML       |         42 |          0 |          5 |         47 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\checkLogin.js       | JavaScript |         66 |          1 |          8 |         75 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\choose.js           | JavaScript |         87 |          1 |         15 |        103 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\discussion.js       | JavaScript |        796 |         46 |        133 |        975 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\login.js            | JavaScript |        136 |          1 |         19 |        156 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\messageFeed.js      | JavaScript |        334 |         24 |         65 |        423 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\s_websocket.js      | JavaScript |         36 |          7 |         13 |         56 |
+| c:\storage\Eclipse\workspace\CanvasBot\canvasBot-Docs\web\js\textBox.js          | JavaScript |        651 |         72 |        104 |        827 |
+| Total                                                                            |            |      2,984 |        171 |        477 |      3,632 |
++----------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

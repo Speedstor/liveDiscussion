@@ -66,17 +66,15 @@ public class Main {
 		double timeStart = clock.millis();
 		serverStartTime = clock.instant();
 		
-		log = new Log(clock);	
-		
+		log = new Log(clock);
 		cache = new Cache(log);
 		
 		tokenHandler = new TokenHandler(log, false);
-		
 		websocketHandler = new WebSocketHandler(log, tokenHandler);
-		
 		discussionHandler = new DiscussionHandler(log, clock, tokenHandler, websocketHandler);
 		
-		apiServer = new APIServer(log, clock, Settings.API_SERVER_PORT, timeStart, websocketHandler, tokenHandler, discussionHandler, cache);
+		apiServer = new APIServer(log, clock, Settings.API_SERVER_PORT, timeStart, 
+									websocketHandler, tokenHandler, discussionHandler, cache);
 		apiServerThread = new Thread(apiServer);
 		apiServerThread.start();
 		

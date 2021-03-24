@@ -7,10 +7,10 @@ var CANVAS_INSTALL_URL = "fairmontschools.beta.instructure.com";
 console.log("check login");
 window.socketId = getCookie("socketId");
 var accountId = getCookie("accountId");
-if(window.socketId == null){
-    if(accountId == null){
-        window.location.href =  currentPageUrl+pageExt;
-    }else{
+if(accountId == null){
+    window.location.href = currentPageUrl+pageExt;
+}else{
+    if(window.socketId == null){
         var response = fetch(serverUrl+"/checkLogin?socketId=update&accountId="+accountId).then(responseText => responseText.text()).then((response) => {
             if(response == "false"){
                 window.location.href = currentPageUrl+pageExt;
@@ -19,10 +19,6 @@ if(window.socketId == null){
                 setCookie("socketId", window.socketId, 0);
             }    
         })
-    }
-}else{
-    if(accountId == null){
-        window.location.href =  currentPageUrl+pageExt;
     }else{
         var response = fetch(serverUrl+"/checkLogin?socketId="+window.socketId+"&accountId="+accountId).then(responseText => responseText.text()).then((response) => {
             console.log(response)

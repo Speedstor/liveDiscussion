@@ -19,6 +19,7 @@ import net.speedstor.websocket.WebSocketHandler;
 public class CanvasDiscussion extends Discussion implements Runnable{
 	String backupToken;
 	boolean running;
+	String url;
 	
 	HashMap<String, Integer> previousAmount = new HashMap<>();
 	
@@ -27,7 +28,7 @@ public class CanvasDiscussion extends Discussion implements Runnable{
     JSONParser parser = new JSONParser();
 		
 	public CanvasDiscussion(Log log, String url, Clock clock, TokenHandler tokenHandler, String backupToken, WebSocketHandler websocketHandler, Cache cache) {
-		super(log, backupToken, clock, tokenHandler, websocketHandler, cache);
+		super(log, clock, tokenHandler, websocketHandler, cache);
 		initialized = false;
 		
 		this.log = log;
@@ -37,10 +38,6 @@ public class CanvasDiscussion extends Discussion implements Runnable{
 		this.backupToken = backupToken; //first user's server token
 		this.websocketHandler = websocketHandler;
 		this.cache = cache;
-
-		discussionJson.put("topic", "");
-		discussionJson.put("title", "");
-		discussionJson.put("online", new JSONArray());
 	}
 
 	public boolean inUpdating = false;
@@ -165,6 +162,10 @@ public class CanvasDiscussion extends Discussion implements Runnable{
 		running = false;
 		return 1;
 	}
+
+	public String getUrl() {
+		return url;
+	}
 	
 	@SuppressWarnings("unchecked")
 	private void updateJson() {
@@ -191,8 +192,7 @@ public class CanvasDiscussion extends Discussion implements Runnable{
 			JSONObject convJson;
 			try {
 	            convJson = (JSONObject) parser.parse(discussionJsonString);
-	            
-	            if(!discussionJson.containsKey("participants")) {
+	            if(((JSONObject) discussionJson.get("participants")).toString().equals("{}")) {
 	            	if(convJson.containsKey("participants")) {
 	            		JSONObject participantsSub = new JSONObject();
 	            		((JSONArray) convJson.get("participants")).forEach((participantObject) -> {
@@ -214,7 +214,7 @@ public class CanvasDiscussion extends Discussion implements Runnable{
 				JSONArray viewSub;
 				if((viewSub = (JSONArray) convJson.get("view")) != null) {
 					//check size of topics and if it had increased
-					if(!discussionJson.containsKey("view")) {
+					if(((JSONObject) discussionJson.get("view")).toString().equals("{}")) {
 						JSONObject viewJson = new JSONObject();
 						viewSub.forEach((x) -> {
 							viewJson.put(""+((JSONObject) x).get("id"), x);

@@ -14,29 +14,31 @@ window.onload = function(){
         //if no cookies to forward
         var discussionListDiv = document.getElementById("discussionList");
         var response = fetch(serverUrl+"/listDiscussions?socketId="+window.socketId).then(response => response.json()).then((discussionList) => {
-            console.log("testing");
+            console.log(discussionList);
             Object.entries(discussionList).forEach(([key, courseItem]) => {
-                var courseList = document.createElement("DIV");
-                courseList.classList.add("courseList", "item");
-    
-                var titleLi = document.createElement("li");
-                titleLi.classList.add("list-group-item", "list-group-item-info");
-                titleLi.innerHTML = courseItem.name;
-                courseList.appendChild(titleLi);
-    
-                Object.entries(courseItem.discussions).forEach(([key, discussionItem]) => {
-                    var discussionButton = document.createElement("BUTTON");
-                    discussionButton.classList.add("list-group-item", "list-group-item-action", "liveDiscussionOption");
-                    discussionButton.innerHTML = discussionItem.title+" <span>choose</span>"; 
-                    discussionButton.onclick = function(){
-                        linkTo(courseItem.id+"v"+discussionItem.id);
-                    }
-                    courseList.appendChild(discussionButton);
-                }) 
-    
-                discussionListDiv.appendChild(courseList);
+                if(courseItem.discussions){
+                    var courseList = document.createElement("DIV");
+                    courseList.classList.add("courseList", "item");
+        
+                    var titleLi = document.createElement("li");
+                    titleLi.classList.add("list-group-item", "list-group-item-info");
+                    titleLi.innerHTML = courseItem.name;
+                    courseList.appendChild(titleLi);
+        
+                    Object.entries(courseItem.discussions).forEach(([key, discussionItem]) => {
+                        var discussionButton = document.createElement("BUTTON");
+                        discussionButton.classList.add("list-group-item", "list-group-item-action", "liveDiscussionOption");
+                        discussionButton.innerHTML = discussionItem.title+" <span>choose</span>"; 
+                        discussionButton.onclick = function(){
+                            linkTo(courseItem.id+"v"+discussionItem.id);
+                        }
+                        courseList.appendChild(discussionButton);
+                    }) 
+                    
+                    discussionListDiv.appendChild(courseList);
+                }
             });
-        document.getElementById("loader").style.display = "none";
+            document.getElementById("loader").style.display = "none";
         })
     }
 }

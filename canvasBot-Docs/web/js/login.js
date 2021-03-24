@@ -1,5 +1,6 @@
 var currentPageUrl = 'http://'+ location.hostname;
 var serverUrl = currentPageUrl + ":40";
+var pageExt = "";
 var CANVAS_INSTALL_URL = "fairmontschools.beta.instructure.com";
 
 var socket;
@@ -44,7 +45,33 @@ function loginOnClick(){
     }else if(document.getElementById("discussionOption").checked){
         let deleteAlert = document.getElementById("login-alert");
         if(deleteAlert) deleteAlert.parentElement.removeChild(deleteAlert);
-        insertAlert(document.getElementById("discussionLogin"), 'This mode is not implemented yet', "login-alert");
+
+        var idNumbers = document.getElementsByClassName("inputDiscussionId");
+        
+        var inputDiscussionId = "";
+        for(var i = 0; i < idNumbers.length; i++){
+            if(idNumbers[i].value.length < 1){
+                insertAlert(document.getElementById("discussionLogin"), 'Please provide a 6 digit code', "login-alert");
+                return;
+            }
+            inputDiscussionId += idNumbers[i].value;
+        }
+        console.log(inputDiscussionId);
+
+        var urlParameter;
+        var accountId = getCookie("accountId");
+        if(accountId == null) urlParameter = "";
+        else urlParameter = "&accountId="+accountId;
+
+        fetch(serverUrl+"/newUser?discussionId="+inputDiscussionId+urlParameter).then(response => response.json()).then((responseJson) => {
+            if("error" in responseJson){
+                insertAlert(document.getElementById("discussionLogin"), 'The code is not valid', "login-alert");
+                return;
+            }
+            setCookie("socketId", responseJson.socketId, 0);
+            setCookie("accountId", responseJson.accountId, 9999999);
+        })
+        window.location.href = currentPageUrl+pageExt+"/discussion.html?id="+inputDiscussionId;
     }else if(document.getElementById("testOption").checked){
         var canvasToken = document.getElementById("canvasToken-direct").value;
         fetch(serverUrl+"/tokenLogin?canvasToken="+canvasToken).then(response => response.json()).then((responseJson) => {
@@ -60,11 +87,21 @@ function loginOnClick(){
     }
 }
 
+function createDiscussionRoom(){
+    fetch(serverUrl+"/createDiscussion").then(response1 => response1.text()).then((newDiscussionId) => {
+        fetch(serverUrl+"/newUser?discussionId="+newDiscussionId).then(response => response.json()).then((responseJson) => {
+            setCookie("socketId", responseJson.socketId, 0);
+            setCookie("accountId", responseJson.accountId, 9999999);
+        })
+        window.location.href = currentPageUrl+pageExt+"/discussion.html?id="+newDiscussionId;
+    })
+}
+
 function insertAlert(parentElement, stringContent, id){
     var alert = document.createElement("DIV");
         
     alert.className = "alert alert-warning alert-dismissible fade show";
-    alert.style = "font-size: 13px; padding-top: 8px; padding-bottom: 8px;";
+    alert.style = "font-size: 13px; padding-top: 8px; padding-bottom: 8px; margin-bottom: 5px; color: black;";
     alert.role = "alert";
     alert.id = id;
 
@@ -99,3 +136,21 @@ function setCookie(name,value,days) {
     document.cookie = name+'=; Max-Age=-99999999;';  
   }
  
+
+  
+window.onload = function(){
+    document.getElementById("discussionIdWrapper").addEventListener("keydown", function(e){
+        e.preventDefault();
+        if(e.key == "Backspace"){
+            e.target.value = "";
+            if(e.target.previousElementSibling != null) e.target.previousElementSibling.focus();
+            return;
+        }
+        if(isNaN(e.key)) {
+            return;
+        }
+        e.target.value = e.key;
+        if(e.target.nextElementSibling != null) e.target.nextElementSibling.focus();
+    })
+    
+}
