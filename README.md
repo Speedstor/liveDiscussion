@@ -2,11 +2,9 @@
 
 [![liveDiscussion Screen Shot](./screenshot.png)](https://example.com)
 
-A `C` program that send and receives tcp packets from raw sockets. 
+Seeing that online discussion is inorganic during COVID, I attempt at improving it by coding this messaging app.
 
-This can be used for a reference for making custom network protocols given the structure. In addition, the main purpose of this program is to have detailed **time recordings** of individual packets w/ `-r`.
-
-*"On a side note"*, this program only runs on **linux** and linux only, I'm sorry :(.
+This app have live message sync where people can see what one is typing, in that sending does not need to precede it. It helps in online discussions as there is a immediate feedback on what others are saying, spurring the discussion.
 <br/><br/><br/>
 
 ## :green_circle: Quick Start
